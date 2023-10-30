@@ -88,11 +88,19 @@ class User extends Person {
 
         // Verifica se o email e senha informados conferem
         if (email === this.email && password === this.senha) {
-            this.ativo = true; // Reativa a conta
 
-            console.log('✅ Conta reativada com sucesso! \n Realize o login.')
+            // Reativa a conta apenas se realmente estiver desativada
+            if(!this.ativo) {
+                this.ativo = true; // Reativa a conta
+    
+               console.log('✅ Conta reativada com sucesso! \n Realize o login.')
+               return true;
+            }
 
-            return true;
+            console.log('⚠️  Sua conta não está desativada.\n Realize o login para acessar o sistema.');
+
+            return false;
+
         }
 
         console.log('❌ Usuário não localizado! \n👀 Verifique se os dados foram inseridos corretamente.');
