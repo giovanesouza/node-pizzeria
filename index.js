@@ -12,7 +12,7 @@ console.log(user); // Imprime objeto completo
 const dataUser = {
     nomeCompleto: user.nomeCompleto,
     cpf: user.cpf,
-    dataAniversario: user.dataAniversario,
+    dataNascimento: user.dataNascimento,
     telefone: user.telefone,
     endereco: {
         logradouro: user.logradouro,
