@@ -9,7 +9,7 @@ class Person extends Address {
         // Atributos específicos da Pessoa
         this.nomeCompleto = fullName;
         this.cpf = cpf;
-        this.dataAniversario = birthday;
+        this.dataNascimento = birthday;
         this.telefone = cellPhone;
     };
 
