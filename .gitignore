@@ -1,0 +1,23 @@
+# Archivo de configuración de npm
+package-lock.json
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Documentación generada automáticamente
+doc/
+
+# Directorio de salida compilado
+dist/
+
+# Dependencias específicas del sistema
+# Ejemplo: /path/to/dependency/
+/libraries/
+
+# Entornos locales
+.env
+
+# Cualquier archivo con extensión .swp creado por el editor Vim
+*.swp
