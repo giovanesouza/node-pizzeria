@@ -3,7 +3,8 @@ const express = require('express');
 
 const app = express();
 
-
+// Importação das rotas de usuários
+const users = require("./router/users.router"); 
 
 
 /* == CONFIGURAÇÕES == */ 
@@ -15,6 +16,8 @@ const port = 3000;
 /* Permite trabalhar com JSON */ 
 app.use(express.json());
 
+// Cria uma rota que aceita subrotas
+app.use("/users", users);
 
 
 
