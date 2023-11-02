@@ -217,6 +217,29 @@ const update = (req, res) => {
 // Exclui um cadastro
 const dalete = (req, res) => {
 
+    const id = req.params.id; // Configura um parâmetro chamado 'id' para ser passado na rota
+
+    let found = false;
+
+
+    // Percorre o array de objetos (users) para verificar se um registro com o id informado na requisição
+    users.map((value, index) => {
+
+        if (value.id == id) {
+            found = true;
+
+            users.splice(index, 1); // Remove um pedaço do array, no caso, o objeto (user) com o id informado
+
+           return res.send(value); // Retorna o registro removido
+        }
+
+    });
+
+
+    // Caso não seja localizado...
+    if (!found) {
+        res.status(404).send({ message: "Usuário não localizado." });
+    }
 
 };
 
