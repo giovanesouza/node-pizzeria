@@ -122,8 +122,8 @@ const find = (req, res) => {
     });
 
     // Caso não seja localizado...
-    if(!found) {
-        res.status(404).send({message: "Usuário não localizado."});
+    if (!found) {
+        res.status(404).send({ message: "Usuário não localizado." });
     }
 
 
@@ -140,6 +140,75 @@ const findAll = (req, res) => {
 
 // Atualiza um cadastro
 const update = (req, res) => {
+
+    const id = req.params.id; // Configura um parâmetro chamado 'id' para ser passado na rota
+    const user = req.body; // As informações serão passadas pelo corpo da requisição
+
+    let found = false;
+
+
+    // Verificações
+
+    // Todos os campos vazios
+    if (Object.keys(user).length === 0) {
+        return res.status(400).send({ message: "Os campos precisam ser preenchidos." });
+    }
+
+
+    // Campos específicos não preenchidos
+    if (!user.id) {
+
+        return res.status(400).send({ message: "O campo 'id' deve ser preenchido." });
+
+    } else if (!user.nome) {
+
+        return res.status(400).send({ message: "O campo 'nome' deve ser preenchido." });
+
+    } else if (!user.cpf) {
+
+        return res.status(400).send({ message: "O campo 'cpf' deve ser preenchido." });
+
+    } else if (!user.telefone) {
+
+        return res.status(400).send({ message: "O campo 'telefone' deve ser preenchido." });
+
+    } else if (!user.dataNasc) {
+
+        return res.status(400).send({ message: "O campo 'dataNasc' deve ser preenchido." });
+
+    } else if (!user.email) {
+
+        return res.status(400).send({ message: "O campo 'email' deve ser preenchido." });
+
+    } else if (!user.senha) {
+
+        return res.status(400).send({ message: "O campo 'senha' deve ser preenchido." });
+
+    }
+
+
+    // Percorre o array de objetos (users) para verificar se há um registro com o id informado na requisição
+    users.map((value, index) => {
+
+        if (value.id == id) {
+            found = true;
+
+            users[index] = user; // Atualiza os dados do usuário
+
+
+            users[index].dataCadastro = value.dataCadastro; // Mantém os dados com a data/hora do cadastro
+            users[index].dataAtualizacao = currentDate(); // Pega a data/hora que da atualização e salva no usuário
+            users[index].ativo = true; // Mantém o perfil ativo
+
+            res.send(users[index]); // Retorna o registro atualizado
+        }
+
+    });
+
+    // Caso não seja localizado...
+    if (!found) {
+        res.status(404).send({ message: "Usuário não localizado." });
+    }
 
 
 };
