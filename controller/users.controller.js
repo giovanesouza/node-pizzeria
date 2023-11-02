@@ -69,27 +69,27 @@ const create = (req, res) => {
 
 
     if (!user.nome) {
-        
+
         return res.status(400).send({ message: "O campo 'nome' deve ser preenchido." });
-        
-    } else if(!user.cpf) {
-        
+
+    } else if (!user.cpf) {
+
         return res.status(400).send({ message: "O campo 'cpf' deve ser preenchido." });
-        
-    } else if(!user.telefone) {
-        
+
+    } else if (!user.telefone) {
+
         return res.status(400).send({ message: "O campo 'telefone' deve ser preenchido." });
-        
-    } else if(!user.dataNasc) {
-        
+
+    } else if (!user.dataNasc) {
+
         return res.status(400).send({ message: "O campo 'dataNasc' deve ser preenchido." });
-        
-    } else if(!user.email) {
+
+    } else if (!user.email) {
 
         return res.status(400).send({ message: "O campo 'email' deve ser preenchido." });
-        
-    } else if(!user.senha) {
-        
+
+    } else if (!user.senha) {
+
         return res.status(400).send({ message: "O campo 'senha' deve ser preenchido." });
 
     }
@@ -97,7 +97,7 @@ const create = (req, res) => {
 
     user.dataCadastro = currentDate(); // Pega a data/hora que o cadastro foi realizado e salva no usuário
     user.ativo = true; // Insere a chave 'ativo' com o valor true ao cadastrar o usuário
-    
+
     users.push(user); // Insere novo cadastro na lista
 
 };
@@ -106,9 +106,26 @@ const create = (req, res) => {
 // Ler um cadastro
 const find = (req, res) => {
 
-    const id = req.params.id; // Configura um parâmetro chamado id para ser passado na rota
+    const id = req.params.id; // Configura um parâmetro chamado 'id' para ser passado na rota
 
-    res.send(`Rota find, com o id: ${id}`);
+    let found = false;
+
+    // Percorre o array de objetos (users) para verificar se há um registro com o id informado na requisição
+    users.map(value => {
+
+        if (value.id == id) {
+            found = true;
+
+            res.send(value); // Retorna o registro com base no id informado
+        }
+
+    });
+
+    // Caso não seja localizado...
+    if(!found) {
+        res.status(404).send({message: "Usuário não localizado."});
+    }
+
 
 };
 
