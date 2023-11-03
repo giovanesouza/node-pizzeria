@@ -16,18 +16,8 @@ const users = [
 
     /*  Informações inseridas automaticamente
         dataCadastro: "YYYY-MM-DDTHH:MM:SS",
-        dataAtualização: "YYYY-MM-DDTHH:MM:SS",
-
+        dataAtualizacao: "YYYY-MM-DDTHH:MM:SS",
      */
-        {
-            "id": 1,
-            "nome": "Giovane Souza",
-            "cpf": "123.123.123-12",
-            "telefone": "81 98888-8888",
-            "dataNasc": "1890-01-01",
-            "email": "usuario1@gmail.com",
-            "senha": "user1"
-          }
 ];
 
 
@@ -106,6 +96,8 @@ const create = (req, res) => {
     user.dataCadastro = currentDate(); // Pega a data/hora que o cadastro foi realizado e salva no usuário
 
     users.push(user); // Insere novo cadastro na lista
+
+    res.status(201).send(user); // Retorna o usuário cadastrado
 
 };
 
