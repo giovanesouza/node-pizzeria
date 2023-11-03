@@ -1,23 +1,27 @@
-# Archivo de configuración de npm
-package-lock.json
-
-# Logs
-logs/
-*.log
-npm-debug.log*
-
-# Documentación generada automáticamente
-doc/
-
-# Directorio de salida compilado
-dist/
-
-# Dependencias específicas del sistema
-# Ejemplo: /path/to/dependency/
-/libraries/
-
-# Entornos locales
+# Arquivos de configuração
+.npmrc
+.eslintcache
 .env
 
-# Cualquier archivo con extensión .swp creado por el editor Vim
-*.swp
+# Dependências
+node_modules/
+
+# Arquivos de log e saída de erros
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Arquivos de compilação
+/dist/
+/build/
+/out/
+
+# Arquivos de IDE e editores
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Arquivos de sistema
+.DS_Store
+Thumbs.db
