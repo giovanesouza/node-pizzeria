@@ -10,14 +10,14 @@
 > * [x] Ter o Node instalado;
 > * [x] Ter um editor de código de sua preferência;
 > * [x] Clone o repositório por meio do comando abaixo;
-``` shell
-# Clone
-git clone https://github.com/giovanesouza/node-pizzeria.git
-
-# Mude para a branch abaixo
-git checkout 2-mvc-user-crud
-
-```
+> ``` shell
+> # Clone
+> git clone https://github.com/giovanesouza/node-pizzeria.git
+> 
+> # Mude para a branch abaixo
+> git checkout 2-mvc-user-crud
+> 
+> ```
 > * [x] Baixe as dependências do projeto utilizando o comando: `npm install`;
 > * [x] Utilize uma ferramenta que possibilite realizar todos os tipos requisições como o `Postman`, `Insomnia` ou uma extensão chamada `Thunder Client` que possibilita realizar as requisições dentro do **VS CODE**.
 > * [x] Execute o programa utilizando o comando: `npm start`;
