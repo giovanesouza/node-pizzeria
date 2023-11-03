@@ -15,11 +15,19 @@ const users = [
 
 
     /*  Informações inseridas automaticamente
-        ativo: true,
         dataCadastro: "YYYY-MM-DDTHH:MM:SS",
         dataAtualização: "YYYY-MM-DDTHH:MM:SS",
 
      */
+        {
+            "id": 1,
+            "nome": "Giovane Souza",
+            "cpf": "123.123.123-12",
+            "telefone": "81 98888-8888",
+            "dataNasc": "1890-01-01",
+            "email": "usuario1@gmail.com",
+            "senha": "user1"
+          }
 ];
 
 
@@ -96,7 +104,6 @@ const create = (req, res) => {
 
 
     user.dataCadastro = currentDate(); // Pega a data/hora que o cadastro foi realizado e salva no usuário
-    user.ativo = true; // Insere a chave 'ativo' com o valor true ao cadastrar o usuário
 
     users.push(user); // Insere novo cadastro na lista
 
@@ -116,7 +123,7 @@ const find = (req, res) => {
         if (value.id == id) {
             found = true;
 
-            res.send(value); // Retorna o registro com base no id informado
+            return res.send(value); // Retorna o registro com base no id informado
         }
 
     });
@@ -195,12 +202,10 @@ const update = (req, res) => {
 
             users[index] = user; // Atualiza os dados do usuário
 
-
             users[index].dataCadastro = value.dataCadastro; // Mantém os dados com a data/hora do cadastro
             users[index].dataAtualizacao = currentDate(); // Pega a data/hora que da atualização e salva no usuário
-            users[index].ativo = true; // Mantém o perfil ativo
 
-            res.send(users[index]); // Retorna o registro atualizado
+            return res.send(users[index]); // Retorna o registro atualizado
         }
 
     });
@@ -230,7 +235,7 @@ const dalete = (req, res) => {
 
             users.splice(index, 1); // Remove um pedaço do array, no caso, o objeto (user) com o id informado
 
-           return res.send(value); // Retorna o registro removido
+            return res.send(value); // Retorna o registro removido
         }
 
     });
@@ -244,11 +249,47 @@ const dalete = (req, res) => {
 };
 
 
+// Utilizado para realizar o login - necessário passar o email e senha no corpo da requisição
+const login = (req, res) => {
+
+    const user = req.body; // As informações serão passadas pelo corpo da requisição
+
+    // Verificações de preenchimento de campos
+    if (!user.email) {
+        
+        return res.status(400).send({ message: "O campo 'email' deve ser preenchido." });
+
+    } else if (!user.senha) {
+
+        return res.status(400).send({ message: "O campo 'senha' deve ser preenchido." });
+
+    }
+
+
+    // Verifica se existe um registro com o email e senha passados no corpo da requisição
+
+    const existingUser = users.find((existingUser) => existingUser.email === user.email && existingUser.senha === user.senha);
+
+    if (existingUser) {
+        // Retorna a msg de logado + nome do usuário + dados do login (email e senha)
+        return res.send({ message: "Usuário logado com sucesso!", nome: existingUser.nome, login: user});
+    }
+    
+    return res.status(404).send({ message: "Usuário não localizado." });
+
+
+};
+
+
+
+
+
 // Exporta as funções 
 module.exports = {
     create,
     find,
     findAll,
     update,
-    dalete
+    dalete,
+    login
 }
