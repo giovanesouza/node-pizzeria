@@ -1,10 +1,11 @@
-// Requisita o Express e permite utilizá-lo no código
+// Importações
 const express = require('express');
+const users = require("./router/users.router"); 
+const connectToDataBase = require('./database/database');
 
 const app = express();
 
-// Importação das rotas de usuários
-const users = require("./router/users.router"); 
+connectToDataBase(); // Conecta com o BD
 
 
 /* == CONFIGURAÇÕES == */ 
