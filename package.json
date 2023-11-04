@@ -20,7 +20,9 @@
   },
   "homepage": "https://github.com/giovanesouza/node-pizzeria#readme",
   "dependencies": {
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.0.0"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
