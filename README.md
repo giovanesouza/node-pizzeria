@@ -1,4 +1,4 @@
-# Criação de objeto para representar um Usuário
+# Projeto Express CRUD com Banco de Dados (MongoDB)
 
 ## Como visualizar o projeto localmente?
 
@@ -15,7 +15,7 @@
 > git clone https://github.com/giovanesouza/node-pizzeria.git
 > 
 > # Mude para a branch abaixo
-> git checkout 2-mvc-user-crud
+> git checkout 3-mongodb-auth
 > 
 > ```
 > * [x] Baixe as dependências do projeto utilizando o comando: `npm install`;
@@ -25,9 +25,13 @@
 
 ## Sobre o projeto
 
-Consiste em um CRUD para usuários, utilizando o Node/Express, com a arquitetura de projetos no padrão MVC.
+Consiste em um CRUD para usuários, utilizando o Node/Express, com a arquitetura de projetos no padrão MVC, com persistência de dados utilizando o MongoDB - Banco de dados NoSQL.
 
-> A princípio os dados serão trabalhado em memória - **sem banco de dados**.
+### Implementações
+
+* Padrão MVC;
+* Conexão com o banco via mongoose
+* Token JWT
 
 
 ### Rotas disponíveis
@@ -91,35 +95,3 @@ Consiste em um CRUD para usuários, utilizando o Node/Express, com a arquitetura
 
 ## Resultados obtidos
 
-### Validações ao cadastrar usuário
-![Validações ao cadastrar usuário](screenshots/create-validation.jpg "Validações ao cadastrar usuário")
-
-<br/>
-
-### Cadastro realizado com sucesso
-![Cadastro realizado com sucesso](screenshots/created.jpg "Usuário cadastrado realizado com sucesso")
-
-<br/>
-
-### Busca por um usuário
-![Busca por um usuário](screenshots/find.jpg "Busca por um usuário")
-
-<br/>
-
-### Listagem de todos os usuários cadastrados
-![Listagem dos usuários cadastrados](screenshots/findAll.jpg "Listagem dos usuários cadastrados")
-
-<br/>
-
-### Atualização cadastral
-![Atualização de cadastro](screenshots/update.jpg "Atualização de cadastro")
-
-<br/>
-
-### Login
-![Login](screenshots/login.jpg "Login")
-
-<br/>
-
-### Exclusão de cadastro
-![Exclusão de usuário](screenshots/delete.jpg "Exclusão de usuário")
