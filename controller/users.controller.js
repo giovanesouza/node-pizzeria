@@ -1,128 +1,92 @@
-// Utilizado para guardar os registros
-const users = [
-    // Informações que precisam ser passadas no corpo da requisição
-    /*
-    {
-        id: ,
-        nome: "",
-        cpf: "",
-        telefone: "",
-        dataNasc: "",
-        email: "",
-        senha: "",
-    }
-    */
-
-
-    /*  Informações inseridas automaticamente
-        dataCadastro: "YYYY-MM-DDTHH:MM:SS",
-        dataAtualizacao: "YYYY-MM-DDTHH:MM:SS",
-     */
-];
-
-
-// Utilizada para inserir a data ao se cadastrar e ao atualizar os dados
-const currentDate = () => {
-
-    const date = new Date();
-
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    const hours = String(date.getHours()).padStart(2, '0');
-    const minutes = String(date.getMinutes()).padStart(2, '0');
-    const seconds = String(date.getSeconds()).padStart(2, '0');
-
-    return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
-
-}
-
+const userService = require('../service/user.service');
+const mongoose = require('mongoose');
 
 
 // Cria um cadastro
-const create = (req, res) => {
+const create = async (req, res) => {
 
-    const user = req.body; // As informações serão passadas pelo corpo da requisição
+    try {
 
-    // Verificações
+        const user = req.body; // As informações serão passadas pelo corpo da requisição
 
-    // Todos os campos vazios
-    if (Object.keys(user).length === 0) {
-        return res.status(400).send({ message: "Os campos precisam ser preenchidos." });
+        let userFound = await userService.findUserByEmail(user); // Verifica se o usuário existe
+
+
+        if (userFound.length !== 0) {
+            console.log(userFound)
+            return res.status(400).send({message: "Já existe um usuário cadastrado com o e-mail informado."})
+
+        }
+
+        // Verificações
+
+        // Todos os campos vazios
+        if (Object.keys(user).length === 0) {
+            return res.status(400).send({ message: "Os campos devem ser preenchidos." });
+        }
+
+        //Campos específicos não preenchidos
+        if (!user.nome) {
+
+            return res.status(400).send({ message: "O campo 'nome' deve ser preenchido." });
+
+        } else if (!user.cpf) {
+
+            return res.status(400).send({ message: "O campo 'cpf' deve ser preenchido." });
+
+        } else if (!user.telefone) {
+
+            return res.status(400).send({ message: "O campo 'telefone' deve ser preenchido." });
+
+        } else if (!user.dataNasc) {
+
+            return res.status(400).send({ message: "O campo 'dataNasc' deve ser preenchido." });
+
+        } else if (!user.email) {
+
+            return res.status(400).send({ message: "O campo 'email' deve ser preenchido." });
+
+        } else if (!user.senha) {
+
+            return res.status(400).send({ message: "O campo 'senha' deve ser preenchido." });
+
+        }
+
+
+        res.status(201).send(await userService.createUser(user));
+
+    } catch (err) {
+        console.log(`Erro: ${err}`);
+        res.status(500).send({ message: "Erro no servidor. Tente novamente mais tarde!" })
     }
 
-
-    //Campos específicos não preenchidos
-    if (!user.id) {
-        return res.status(400).send({ message: "O campo 'id' deve ser preenchido." });
-    }
-
-
-    // Verifica se já existe um registro com o mesmo ID e evita duplicidade
-    const existingUser = users.find((existingUser) => existingUser.id === user.id);
-
-    if (existingUser) {
-        return res.status(409).send({ message: "O usuário já está cadastrado." });
-    }
-
-
-    if (!user.nome) {
-
-        return res.status(400).send({ message: "O campo 'nome' deve ser preenchido." });
-
-    } else if (!user.cpf) {
-
-        return res.status(400).send({ message: "O campo 'cpf' deve ser preenchido." });
-
-    } else if (!user.telefone) {
-
-        return res.status(400).send({ message: "O campo 'telefone' deve ser preenchido." });
-
-    } else if (!user.dataNasc) {
-
-        return res.status(400).send({ message: "O campo 'dataNasc' deve ser preenchido." });
-
-    } else if (!user.email) {
-
-        return res.status(400).send({ message: "O campo 'email' deve ser preenchido." });
-
-    } else if (!user.senha) {
-
-        return res.status(400).send({ message: "O campo 'senha' deve ser preenchido." });
-
-    }
-
-
-    user.dataCadastro = currentDate(); // Pega a data/hora que o cadastro foi realizado e salva no usuário
-
-    users.push(user); // Insere novo cadastro na lista
-
-    res.status(201).send(user); // Retorna o usuário cadastrado
 
 };
 
 
 // Ler um cadastro
-const find = (req, res) => {
+const find = async (req, res) => {
 
-    const id = req.params.id; // Configura um parâmetro chamado 'id' para ser passado na rota
+    try {
 
-    let found = false;
+        const id = new mongoose.Types.ObjectId(req.params.id);
 
-    // Percorre o array de objetos (users) para verificar se há um registro com o id informado na requisição
-    users.map(value => {
+        const user = await userService.findUserById(id);
 
-        if (value.id == id) {
-            found = true;
-
-            return res.send(value); // Retorna o registro com base no id informado
+        // Se localizado..
+        if (user != null) {
+            return res.status(200).send(user); // Imprime os dados do usuário
         }
 
-    });
+        // Caso não seja localizado
+        return res.status(404).send({ message: "Usuário não localizado." });
 
-    // Caso não seja localizado...
-    if (!found) {
-        res.status(404).send({ message: "Usuário não localizado." });
+
+
+    } catch (err) {
+        console.log(`Erro: ${err}`);
+
+        return res.status(500).send("Erro no servidor. Tente novamente mais tarde!"); // msg p/ serviço
     }
 
 
@@ -130,149 +94,105 @@ const find = (req, res) => {
 
 
 // Ler todos os cadastros
-const findAll = (req, res) => {
+const findAll = async (req, res) => {
 
-    res.send(users); // Retorna todos os usuários cadastrados
+    return res.status(200).send(await userService.findAllUsers()); // Retorna todos os usuários cadastrados
 
 };
 
 
 // Atualiza um cadastro
-const update = (req, res) => {
+const update = async (req, res) => {
 
-    const id = req.params.id; // Configura um parâmetro chamado 'id' para ser passado na rota
-    const user = req.body; // As informações serão passadas pelo corpo da requisição
+    try {
 
-    let found = false;
-
-
-    // Verificações
-
-    // Todos os campos vazios
-    if (Object.keys(user).length === 0) {
-        return res.status(400).send({ message: "Os campos precisam ser preenchidos." });
-    }
+        const id = req.params.id; // Configura um parâmetro chamado 'id' para ser passado na rota
+        const user = req.body; // As informações serão passadas pelo corpo da requisição
 
 
-    // Campos específicos não preenchidos
-    if (!user.id) {
-
-        return res.status(400).send({ message: "O campo 'id' deve ser preenchido." });
-
-    } else if (!user.nome) {
-
-        return res.status(400).send({ message: "O campo 'nome' deve ser preenchido." });
-
-    } else if (!user.cpf) {
-
-        return res.status(400).send({ message: "O campo 'cpf' deve ser preenchido." });
-
-    } else if (!user.telefone) {
-
-        return res.status(400).send({ message: "O campo 'telefone' deve ser preenchido." });
-
-    } else if (!user.dataNasc) {
-
-        return res.status(400).send({ message: "O campo 'dataNasc' deve ser preenchido." });
-
-    } else if (!user.email) {
-
-        return res.status(400).send({ message: "O campo 'email' deve ser preenchido." });
-
-    } else if (!user.senha) {
-
-        return res.status(400).send({ message: "O campo 'senha' deve ser preenchido." });
-
-    }
+        let userFound = await userService.findUserById(id); // Verifica se o usuário existe
 
 
-    // Percorre o array de objetos (users) para verificar se há um registro com o id informado na requisição
-    users.map((value, index) => {
+        // Verificações
 
-        if (value.id == id) {
-            found = true;
+        // Verifica se os dados passados são iguais
+        let isModified = userService.checkIfDataIsModified(user, userFound);
 
-            users[index] = user; // Atualiza os dados do usuário
+        console.log("São iguais? ", isModified)
 
-            users[index].dataCadastro = value.dataCadastro; // Mantém os dados com a data/hora do cadastro
-            users[index].dataAtualizacao = currentDate(); // Pega a data/hora que da atualização e salva no usuário
-
-            return res.send(users[index]); // Retorna o registro atualizado
+        if (isModified) {
+            return res.status(304).send({ message: "Nenhuma informação alterada." });
         }
 
-    });
 
-    // Caso não seja localizado...
-    if (!found) {
-        res.status(404).send({ message: "Usuário não localizado." });
+        // Todos os campos vazios
+        if (Object.keys(user).length === 0) {
+            return res.status(400).send({ message: "Os campos precisam ser preenchidos." });
+        }
+
+
+        // Campos específicos não preenchidos
+        if (!user.nome) {
+
+            return res.status(400).send({ message: "O campo 'nome' deve ser preenchido." });
+
+        } else if (!user.cpf) {
+
+            return res.status(400).send({ message: "O campo 'cpf' deve ser preenchido." });
+
+        } else if (!user.telefone) {
+
+            return res.status(400).send({ message: "O campo 'telefone' deve ser preenchido." });
+
+        } else if (!user.dataNasc) {
+
+            return res.status(400).send({ message: "O campo 'dataNasc' deve ser preenchido." });
+
+        } else if (!user.email) {
+
+            return res.status(400).send({ message: "O campo 'email' deve ser preenchido." });
+
+        } else if (!user.senha) {
+
+            return res.status(400).send({ message: "O campo 'senha' deve ser preenchido." });
+
+        }
+
+        res.status(200).send(await userService.updateUser(id, user)); // Retorna o usuário atualizado
+
+    } catch (err) {
+        console.log(`Erro: ${err}`);
+        res.status(500).send({ message: "Erro no servidor. Tente novamente mais tarde." })
     }
-
 
 };
 
 
 // Exclui um cadastro
-const dalete = (req, res) => {
+const dalete = async (req, res) => {
 
-    const id = req.params.id; // Configura um parâmetro chamado 'id' para ser passado na rota
+    try {
 
-    let found = false;
+        const id = req.params.id; // Configura um parâmetro chamado 'id' para ser passado na rota
 
+        let userFound = await userService.findUserById(id); // Verifica se o usuário existe
 
-    // Percorre o array de objetos (users) para verificar se um registro com o id informado na requisição
-    users.map((value, index) => {
-
-        if (value.id == id) {
-            found = true;
-
-            users.splice(index, 1); // Remove um pedaço do array, no caso, o objeto (user) com o id informado
-
-            return res.send(value); // Retorna o registro removido
+        // Se existir, exclui
+        if (userFound != null) {
+            return res.status(200).send(await userService.daleteUser(id));
         }
 
-    });
+        // Caso não exista, printa msg
+        res.status(404).send({ message: "Usuário não localizado." })
 
 
-    // Caso não seja localizado...
-    if (!found) {
-        res.status(404).send({ message: "Usuário não localizado." });
+    } catch (err) {
+        console.log(`Erro: ${err}`)
+        res.status(500).send({ message: "Erro no servidor. Tente novamente mais tarde." })
     }
-
-};
-
-
-// Utilizado para realizar o login - necessário passar o email e senha no corpo da requisição
-const login = (req, res) => {
-
-    const user = req.body; // As informações serão passadas pelo corpo da requisição
-
-    // Verificações de preenchimento de campos
-    if (!user.email) {
-        
-        return res.status(400).send({ message: "O campo 'email' deve ser preenchido." });
-
-    } else if (!user.senha) {
-
-        return res.status(400).send({ message: "O campo 'senha' deve ser preenchido." });
-
-    }
-
-
-    // Verifica se existe um registro com o email e senha passados no corpo da requisição
-
-    const existingUser = users.find((existingUser) => existingUser.email === user.email && existingUser.senha === user.senha);
-
-    if (existingUser) {
-        // Retorna a msg de logado + nome do usuário + dados do login (email e senha)
-        return res.send({ message: "Usuário logado com sucesso!", nome: existingUser.nome, login: user});
-    }
-    
-    return res.status(404).send({ message: "Usuário não localizado." });
 
 
 };
-
-
 
 
 
