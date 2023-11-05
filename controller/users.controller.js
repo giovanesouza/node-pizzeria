@@ -202,6 +202,5 @@ module.exports = {
     find,
     findAll,
     update,
-    dalete,
-    login
+    dalete
 }
