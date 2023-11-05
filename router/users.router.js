@@ -11,8 +11,6 @@ router.get("/find/:id", users.find); // Retorna 1 usuário
 router.get("/findAll", users.findAll); // Retorna todos os usuários
 router.put("/update/:id", users.update); // Atualiza usuário
 router.delete("/delete/:id", users.dalete); // Exclui usuário
-router.post("/login", users.login); // Realiza o login
-
 
 
 // Exporta o router com todas as rotas criadas
