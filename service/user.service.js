@@ -13,6 +13,8 @@ const findUserById = (id) => {
     return User.findById(id);
 }
 
+// Busca usuário pelo email
+const findUserByEmail = (user) => User.find({ email: user.email });
 
 // Lista todos os usuários
 const findAllUsers = () => {
@@ -31,10 +33,33 @@ const daleteUser = (id) => {
 }
 
 
+// Utilizado para verificar se houve alteração nos dados cadastrais ao atualizar
+const checkIfDataIsModified = (user, userFound) => {
+
+    userFound = {
+        nome: userFound.nome,
+        cpf: userFound.cpf,
+        telefone: userFound.telefone,
+        dataNasc: userFound.dataNasc,
+        email: userFound.email,
+        senha: userFound.senha
+    }
+
+    // console.log(user)
+    // console.log(userFound)
+
+    return JSON.stringify(user) == JSON.stringify(userFound);
+
+}
+
+
+
 module.exports = {
     createUser,
     findUserById,
+    findUserByEmail,
     findAllUsers,
     updateUser,
-    daleteUser
+    daleteUser,
+    checkIfDataIsModified
 }
