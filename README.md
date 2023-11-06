@@ -46,7 +46,6 @@ Consiste em um CRUD para usuários, utilizando o Node/Express, com a arquitetura
 // Dados obrigatórios ao cadastrar usuário - inserir no corpo da requisição
 
     {
-        "id": ,
         "nome": "",
         "cpf": "",
         "telefone": "",
@@ -66,7 +65,6 @@ Consiste em um CRUD para usuários, utilizando o Node/Express, com a arquitetura
 // Dados obrigatórios ao atualizar registro - inserir no corpo da requisição
 
     {
-        "id": ,
         "nome": "",
         "cpf": "",
         "telefone": "",
@@ -78,7 +76,7 @@ Consiste em um CRUD para usuários, utilizando o Node/Express, com a arquitetura
 ```
 
 * Exclui um registro - **DELETE**: `http://localhost:3000/users/delete/:id`
-* Realiza login - **POST**: `http://localhost:3000/users/login`
+* Login (Gera um token para realizar o login) - **POST**: `http://localhost:3000/users/login`
 
 ```json
 
@@ -90,6 +88,8 @@ Consiste em um CRUD para usuários, utilizando o Node/Express, com a arquitetura
     }
 
 ```
+
+* Validador de Token (Verifica se o token é válido) - **GET**: `http://localhost:3000/validar-token`
 
 
 
