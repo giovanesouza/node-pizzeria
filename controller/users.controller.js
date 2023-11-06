@@ -15,11 +15,11 @@ const create = async (req, res) => {
 
         if (userFoundByEmail.length !== 0) {
             console.log(userFoundByEmail);
-            return res.status(400).send({message: "Já existe um usuário cadastrado com o e-mail informado."});
+            return res.status(400).send({ message: "Já existe um usuário cadastrado com o e-mail informado." });
 
         } else if (userFoundByCpf.length !== 0) {
             console.log(userFoundByCpf);
-            return res.status(400).send({message: "Já existe um usuário cadastrado com o cpf informado."});
+            return res.status(400).send({ message: "Já existe um usuário cadastrado com o cpf informado." });
 
         }
 
@@ -91,9 +91,12 @@ const find = async (req, res) => {
     } catch (err) {
         console.log(`Erro: ${err}`);
 
-        return res.status(500).send("Erro no servidor. Tente novamente mais tarde!"); // msg p/ serviço
-    }
+        if (err.name == 'BSONError') {
+            return res.status(400).send({ message: "Verifique se o 'id' foi informado corretamente." }); 
+        }
 
+        return res.status(500).send({ message: "Erro no servidor. Tente novamente mais tarde!" }); // msg p/ serviço
+    }
 
 };
 
