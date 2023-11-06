@@ -9,12 +9,17 @@ const create = async (req, res) => {
 
         const user = req.body; // As informações serão passadas pelo corpo da requisição
 
-        let userFound = await userService.findUserByEmail(user); // Verifica se o usuário existe
+        let userFoundByEmail = await userService.findUserByEmail(user); // Verifica se já existe um usuário existe com base no email
+        let userFoundByCpf = await userService.findUserByCpf(user); // Verifica se já existe um usuário com base no CPF
 
 
-        if (userFound.length !== 0) {
-            console.log(userFound)
-            return res.status(400).send({message: "Já existe um usuário cadastrado com o e-mail informado."})
+        if (userFoundByEmail.length !== 0) {
+            console.log(userFoundByEmail);
+            return res.status(400).send({message: "Já existe um usuário cadastrado com o e-mail informado."});
+
+        } else if (userFoundByCpf.length !== 0) {
+            console.log(userFoundByCpf);
+            return res.status(400).send({message: "Já existe um usuário cadastrado com o cpf informado."});
 
         }
 
@@ -118,7 +123,7 @@ const update = async (req, res) => {
         // Verifica se os dados passados são iguais
         let isModified = userService.checkIfDataIsModified(user, userFound);
 
-        console.log("São iguais? ", isModified)
+        console.log("São iguais? ", isModified);
 
         if (isModified) {
             return res.status(304).send({ message: "Nenhuma informação alterada." });
