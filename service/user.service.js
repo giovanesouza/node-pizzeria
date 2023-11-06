@@ -16,6 +16,9 @@ const findUserById = (id) => {
 // Busca usuário pelo email
 const findUserByEmail = (user) => User.find({ email: user.email });
 
+// Busca usuário pelo cpf
+const findUserByCpf = (user) => User.find({ cpf: user.cpf });
+
 // Lista todos os usuários
 const findAllUsers = () => {
     return User.find();
@@ -58,6 +61,7 @@ module.exports = {
     createUser,
     findUserById,
     findUserByEmail,
+    findUserByCpf,
     findAllUsers,
     updateUser,
     daleteUser,
