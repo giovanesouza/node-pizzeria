@@ -44,6 +44,16 @@ const findAllUsersController = async (req, res) => {
     }
 };
 
+const findAllAddressController = async (req, res) => {
+    try {
+        const user = await userService.findUserByIdService(req.params.id);
+        res.status(200).send(user.enderecos);
+    } catch (err) {
+        console.log(`erro: ${err.message}`);
+        return res.status(500).send({ message: `Erro inesperado tente novamente!` });
+    }
+};
+
 
 const updateUserController = async (req, res) => {
     try {
@@ -140,6 +150,7 @@ module.exports = {
     createUserController,
     findUserByIdController,
     findAllUsersController,
+    findAllAddressController,
     updateUserController,
     deleteUserController,
     addUserAddressController,
