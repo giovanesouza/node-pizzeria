@@ -8,9 +8,6 @@ const createUserController = async (req, res) => {
         console.log(`erro: ${err.message}`);
         console.log(err.name)
 
-        if (err.name == "MongoServerError")
-            return res.status(400).send({ message: `Usuário já existe.` });
-
         return res.status(500).send({ error: `Tente novamente!` });
     }
 };
@@ -102,27 +99,31 @@ const addUserAddressController = async (req, res) => {
 
 const removeUserAddressController = async (req, res) => {
     try {
-        const endereco = await userService.removeAddressService(req.body.userId, req.body.addressId);
+        const usuario = await userService.removeAddressService(req.body.userId, req.body.addressId);
+        
         let found = false;
+        let totalAddress = usuario.enderecos.length;
 
-        console.log(endereco)
-
-        endereco.enderecos.map((valor) => {
+        usuario.enderecos.map((valor) => {
+           
             if (valor._id == req.body.addressId) {
                 found = true;
 
             }
-            console.log(valor._id)
+
+            console.log(valor)
 
         });
 
+
         if (found) {
-            res.status(200).send({ message: `Endereço removido com sucesso!` });
+ 
+                res.status(200).send({ message: `Endereço removido com sucesso!` });
         } else {
-            res.status(400).send({ message: `Endereço não removido. Tente novamente` });
+            res.status(400).send({ message: `Endereço não localizado. Tente novamente!` });
         }
 
-    } catch (err) {
+     } catch (err) {
         console.log(`erro: ${err.message}`);
         return res.status(500).send({ message: `Erro inesperado tente novamente!` });
     }
