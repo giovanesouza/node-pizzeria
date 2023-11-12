@@ -84,7 +84,7 @@ const validaAddEndereco = (req, res, next) => {
             return res.status(400).send({ message: `O campo ${erros} precisa ser preenchido!`});
         }
     }
-}
+};
 
 const validaRemoveEndereco = (req, res, next) => {
     let erros = [];
@@ -107,7 +107,46 @@ const validaRemoveEndereco = (req, res, next) => {
             return res.status(400).send({ message: `O campo ${erros} precisa ser preenchido!`});
         }
     }
+};
+
+
+
+// Produto e categoria
+const validaCategoria = (req, res, next) => {
+    if(!req.body.nome){
+        return res.status(400).send({ message: `O campo 'nome' precisa ser preenchido!`});
+    }
+
+    return next();
+};
+
+const validaProduto = (req, res, next) => {
+    let erros = []; 
+
+    if(!req.body.nome){
+        erros.push("nome");
+    }
+    if(!req.body.descricao){
+        erros.push("descricao");
+    }
+    if(!req.body.precoUnit){
+        erros.push("precoUnit");
+    }
+
+
+    if(erros.length == 0){
+        return next();
+    }else{
+        if(erros. length > 1){
+            return res.status(400).send({ message: `Os campos ${erros} precisam ser preenchidos!`});
+        }else{
+            return res.status(400).send({ message: `O campo ${erros} precisa ser preenchido!`});
+        }
+    }
+
 }
+
+
 
 
 // Validações gerais
@@ -120,6 +159,14 @@ const validaIdParams = (req, res, next) => {
 };
 
 
+const validaBodyId = (req, res, next) => {
+    if(ObjectId.isValid(req.body._id)){
+        return next();
+    }else{
+        return res.status(400).send({ message: `O ID não corresponde aos padroes necessarios`});
+    }
+};
+
 
 
 module.exports = {
@@ -127,5 +174,8 @@ module.exports = {
     validaLogin,
     validaAddEndereco,
     validaRemoveEndereco,
-    validaIdParams
+    validaCategoria,
+    validaProduto,
+    validaIdParams,
+    validaBodyId
 }
