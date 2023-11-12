@@ -21,10 +21,10 @@ const deleteUserService = (id) => {
     return Usuario.findByIdAndDelete(id);
 }
 
-const addAddressService = (id, endereco) => {
+const addAddressService = (userId, endereco) => {
     return Usuario.findOneAndUpdate(
         {
-            _id: id,
+            _id: userId,
         },
         {
             $push:{
@@ -32,15 +32,15 @@ const addAddressService = (id, endereco) => {
             }
         },
         {
-            rawResult: true,
+            returnDocument: "after"
         }
     );
 }
 
-const removeAddressService = (id, addressId) => {
+const removeAddressService = (userId, addressId) => {
     return Usuario.findOneAndUpdate(
         {
-            _id: id,
+            _id: userId,
         },
         {
             $pull:{
@@ -50,7 +50,7 @@ const removeAddressService = (id, addressId) => {
             }
         },
         {
-            rawResult: true,
+            returnDocument: "after"
         }
     );
 }
