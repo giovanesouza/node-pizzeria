@@ -3,11 +3,17 @@ const express = require("express");
 require("dotenv").config();
 
 
+const connectToDatabase = require('./src/database/database'); // BD
+
+
 const app = express();
 
 const port = 3000;
 
 app.use(express.json());
+
+
+connectToDatabase(); // Conexão com o BD
 
 
 app.get("/", (req,res) => {
