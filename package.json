@@ -1,0 +1,34 @@
+{
+  "name": "pizzeria",
+  "version": "1.0.0",
+  "description": "Projeto back-end para pizzaria seguindo o padrão de arquitetura MVC, conexão com banco de dados MongoDB via mongoose, token JWT e documentação Swagger.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./index.js",
+    "dev": "nodemon ./index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/giovanesouza/node-pizzeria.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/giovanesouza/node-pizzeria/issues"
+  },
+  "homepage": "https://github.com/giovanesouza/node-pizzeria#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.0.0",
+    "swagger-ui-express": "^5.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
