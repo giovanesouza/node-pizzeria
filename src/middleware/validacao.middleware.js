@@ -59,6 +59,55 @@ const validaLogin = (req, res, next) => {
     }
 };
 
+const validaAddEndereco = (req, res, next) => {
+    let erros = [];
+
+    if(!req.body.rua) {
+        erros.push('rua');
+    }
+
+    if(!req.body.numero) {
+        erros.push('numero');
+    }
+
+    if(!req.body.cep) {
+        erros.push('cep');
+    }
+
+
+    if(erros.length == 0){
+        return next();
+    }else{
+        if(erros. length > 1){
+            return res.status(400).send({ message: `Os campos ${erros} precisam ser preenchidos!`});
+        }else{
+            return res.status(400).send({ message: `O campo ${erros} precisa ser preenchido!`});
+        }
+    }
+}
+
+const validaRemoveEndereco = (req, res, next) => {
+    let erros = [];
+
+    if(!req.body.userId) {
+        erros.push('userId');
+    }
+
+    if(!req.body.addressId) {
+        erros.push('addressId');
+    }
+
+
+    if(erros.length == 0){
+        return next();
+    }else{
+        if(erros. length > 1){
+            return res.status(400).send({ message: `Os campos ${erros} precisam ser preenchidos!`});
+        }else{
+            return res.status(400).send({ message: `O campo ${erros} precisa ser preenchido!`});
+        }
+    }
+}
 
 
 // Validações gerais
@@ -68,11 +117,15 @@ const validaIdParams = (req, res, next) => {
     }else{
         return res.status(400).send({ message: `O ID não corresponde aos padrões necessários.`});
     }
-}
+};
+
+
 
 
 module.exports = {
     validaUsuario,
     validaLogin,
+    validaAddEndereco,
+    validaRemoveEndereco,
     validaIdParams
 }
