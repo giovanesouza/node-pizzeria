@@ -174,6 +174,29 @@ const validaPedido = (req, res, next) => {
     }
 };
 
+const validaCarrinho = (req, res, next) => {
+    let erros = []; //var para acumular os erros
+
+    if(!req.body.precoTotal){
+        erros.push("precoTotal");
+    }
+
+    if(!req.body.frete){
+        erros.push("frete");
+    }
+
+    //testando quantos erros temos e tomando decisoes em relacao a isso
+    if(erros.length == 0){
+        return next();
+    }else{
+        if(erros. length > 1){
+            return res.status(400).send({ message: `Os campos ${erros} precisam ser preenchidos!`});
+        }else{
+            return res.status(400).send({ message: `O campo ${erros} precisa ser preenchido!`});
+        }
+    }
+};
+
 const validaProdutosCarrinhoPedido = (req, res, next) => {
     let erros = [];
 
@@ -230,6 +253,7 @@ module.exports = {
     validaCategoria,
     validaProduto,
     validaPedido,
+    validaCarrinho,
     validaProdutosCarrinhoPedido,
     validaIdParams,
     validaBodyId

@@ -11,6 +11,7 @@ const auth = require("./src/router/auth.router");
 const categoria = require("./src/router/categoria.router");
 const produto = require("./src/router/produto.router");
 const pedido = require("./src/router/pedido.router");
+const carrinho = require("./src/router/carrinho.router");
 
 
 
@@ -30,6 +31,7 @@ app.use("/auth", auth);
 app.use("/categories", categoria); 
 app.use("/products", produto); 
 app.use("/orders", pedido); 
+app.use("/carts", carrinho); 
 
 
 
