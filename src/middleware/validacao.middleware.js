@@ -132,6 +132,9 @@ const validaProduto = (req, res, next) => {
     if(!req.body.precoUnit){
         erros.push("precoUnit");
     }
+    if(!req.body.categorias){
+        erros.push("categorias");
+    }
 
 
     if(erros.length == 0){

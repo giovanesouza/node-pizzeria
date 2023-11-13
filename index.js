@@ -5,9 +5,11 @@ require("dotenv").config();
 
 const connectToDatabase = require('./src/database/database'); // BD
 
-
-const usuario = require("./src/router/usuario.router"); // arquivo de rota do usuarios
-const auth = require("./src/router/auth.router"); // arquivo de rota de auth
+// Arquivos de rotas
+const usuario = require("./src/router/usuario.router");
+const auth = require("./src/router/auth.router"); 
+const categoria = require("./src/router/categoria.router");
+const produto = require("./src/router/produto.router");
 
 
 
@@ -22,8 +24,10 @@ connectToDatabase(); // Conexão com o BD
 
 
 // Rotas
-app.use("/usuarios", usuario); //chamando as rotas do usuario
-app.use("/auth", auth); //chamando as rotas de auth
+app.use("/users", usuario); 
+app.use("/auth", auth); 
+app.use("/categories", categoria); 
+app.use("/products", produto); 
 
 
 
