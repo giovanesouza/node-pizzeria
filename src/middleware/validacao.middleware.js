@@ -150,6 +150,56 @@ const validaProduto = (req, res, next) => {
 }
 
 
+// Pedido e carrinho
+
+const validaPedido = (req, res, next) => {
+    let erros = []; 
+
+    if(!req.body.precoTotal){
+        erros.push("precoTotal");
+    }
+
+    if(!req.body.frete){
+        erros.push("frete");
+    }
+
+    if(erros.length == 0){
+        return next();
+    }else{
+        if(erros. length > 1){
+            return res.status(400).send({ message: `Os campos ${erros} precisam ser preenchidos!`});
+        }else{
+            return res.status(400).send({ message: `O campo ${erros} precisa ser preenchido!`});
+        }
+    }
+};
+
+const validaProdutosCarrinhoPedido = (req, res, next) => {
+    let erros = [];
+
+    req.body.produtos.map((value, key) => {
+        if(!value._id){
+            erros.push(`'${key+1} - _id'`)
+        }
+        if(!ObjectId.isValid(value._id)){
+            erros.push(`'${key+1} - _id - tipo inválido'`)
+        }
+        if(!value.quantidade){
+            erros.push(`'${key+1} - quantidade'`)
+        }
+    });
+
+    if(erros.length == 0){
+        return next();
+    }else{
+        if(erros. length > 1){
+            return res.status(400).send({ message: `Os campos ${erros} precisam ser preenchidos!`});
+        }else{
+            return res.status(400).send({ message: `O campo ${erros} precisa ser preenchido!`});
+        }
+    }
+}
+
 
 
 // Validações gerais
@@ -179,6 +229,8 @@ module.exports = {
     validaRemoveEndereco,
     validaCategoria,
     validaProduto,
+    validaPedido,
+    validaProdutosCarrinhoPedido,
     validaIdParams,
     validaBodyId
 }
