@@ -21,7 +21,14 @@ const createCategoryController = async (req, res) => {
 
 const findCategoryByIdController = async (req, res) => {
     try {
-        res.status(200).send(await categoriaService.findCategoryByIdService(req.params.id));
+        const category = await categoriaService.findCategoryByIdService(req.params.id);
+
+        // Caso não localize a categoria, exibe msg abaixo
+        if (category == null)
+            return res.status(404).send({ message: "Categoria não localizada." })
+
+        // Se localizada, exibe a categoria
+        res.status(200).send(category);
     } catch (err) {
         console.log(`erro: ${err.message}`);
         return res.status(500).send({ message: `Erro inesperado, tente novamente!` });
