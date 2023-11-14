@@ -47,7 +47,15 @@ const findAllCategoriesController = async (req, res) => {
 
 const updateCategoryController = async (req, res) => {
     try {
-        res.status(200).send(await categoriaService.updateCategoryService(req.params.id, req.body));
+        const categoryFound = await categoriaService.findCategoryByIdService(req.params.id);
+
+        // Se encontrar a categoria, permite atualização
+        if (categoryFound)
+            return res.status(200).send(await categoriaService.updateCategoryService(req.params.id, req.body));
+
+        // Caso não localize, exibe a msg abaixo
+        res.status(404).send({message: "Categoria não encontrada."});
+
     }
     catch (err) {
         console.log(`erro: ${err.message}`);
@@ -56,8 +64,16 @@ const updateCategoryController = async (req, res) => {
 }
 
 const deleteCategoryController = async (req, res) => {
-    try {
-        res.status(200).send(await categoriaService.deleteCategoryService(req.params.id));
+    try {  
+        const categoryFound = await categoriaService.findCategoryByIdService(req.params.id);
+
+        // Se encontrar a categoria, a exclui
+        if (categoryFound)
+            return res.status(200).send(await categoriaService.deleteCategoryService(req.params.id));
+
+        // Caso não localize, exibe a msg abaixo
+        res.status(404).send({message: "Categoria não encontrada."});
+
     } catch (err) {
         console.log(`erro: ${err.message}`);
         return res.status(500).send({ message: `Erro inesperado, tente novamente!` });
