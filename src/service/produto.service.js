@@ -3,30 +3,34 @@ const Produto = require("../model/Produto");
 
 const createProductService = (body) => {
     return Produto.create(body);
-}
+};
 
 
 const findProductByIdService = (id) => {
     return Produto.findById(id);
-}
+};
+
+const findProductByNameService = (productName) => {
+    return Produto.findOne({ nome: productName });
+};
 
 const findAllProductsService = () => {
     return Produto.find();
-}
+};
 
 const updateProductService = (id, body) => {
     return Produto.findByIdAndUpdate(id, body, { returnDocument: "after" });
-}
+};
 
 const deleteProductService = (id) => {
     return Produto.findByIdAndDelete(id);
-}
+};
 
 
 const addProductCategoryService = (productId, category) => {
     return Produto.findOneAndUpdate(
         {
-            _id : productId
+            _id: productId
         },
         {
             $push: {
@@ -40,7 +44,7 @@ const addProductCategoryService = (productId, category) => {
             returnDocument: "after",
         }
     );
-}
+};
 
 const removeProductCategoryService = (productId, category) => {
     return Produto.findOneAndUpdate(
@@ -58,12 +62,13 @@ const removeProductCategoryService = (productId, category) => {
             returnDocument: "after",
         }
     );
-}
+};
 
 
 module.exports = {
     createProductService,
     findProductByIdService,
+    findProductByNameService,
     findAllProductsService,
     updateProductService,
     deleteProductService,
