@@ -8,6 +8,10 @@ const findCategoryByIdService = (id) => {
     return Categoria.findById(id);
 };
 
+const findCategoryByNameService = (categoryName) => {
+    return Categoria.findOne({ nome: categoryName });
+};
+
 const findAllCategoriesService = () => {
     return Categoria.find();
 };
@@ -23,6 +27,7 @@ const deleteCategoryService = (id) => {
 module.exports = {
     createCategoryService,
     findCategoryByIdService,
+    findCategoryByNameService,
     findAllCategoriesService,
     updateCategoryService,
     deleteCategoryService
