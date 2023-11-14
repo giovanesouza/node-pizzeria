@@ -6,10 +6,10 @@ const createProductController = async (req, res) => {
         const productFound = await produtoService.findProductByNameService(req.body.nome);
 
         // Se localizado, não permite cadastrá-lo novamente 
-        if(productFound)
-            return res.status(400).send({message: "O Produto já consta como cadastrado."});
-        
-        
+        if (productFound)
+            return res.status(400).send({ message: "O Produto já consta como cadastrado." });
+
+
         // Caso não exista, cadastra novo produto
         res.status(201).send(await produtoService.createProductService(req.body));
 
@@ -22,7 +22,12 @@ const createProductController = async (req, res) => {
 
 const findProductByIdController = async (req, res) => {
     try {
-        res.send(await produtoService.findProductByIdService(req.params.id));
+        const productFound = await produtoService.findProductByIdService(req.params.id);
+
+        if (productFound == null)
+            return res.status(404).send({ message: "Produto não localizado!" });
+
+        res.status(200).send(productFound);
     } catch (err) {
         console.log(`erro: ${err.message}`);
         return res.status(500).send({ error: `Tente novamente!` });
