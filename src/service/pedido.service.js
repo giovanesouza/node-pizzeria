@@ -1,4 +1,5 @@
 const Pedido = require("../model/Pedido");
+const Carrinho = require("../model/Carrinho");
 
 
 const createOrderService = (body) => {
@@ -14,6 +15,15 @@ const findAllOrdersService = () => {
 };
 
 
+const findAllOrdersByUserIdService = (userId) => {
+    return Pedido.find({ userId });
+};
+
+const getOrderInfoByIdService = (carrinhoId) => {
+    return Carrinho.findById(carrinhoId);
+};
+
+
 const deleteOrderService = (id) => {
     return Pedido.findByIdAndDelete(id);
 };
@@ -26,6 +36,8 @@ module.exports = {
     createOrderService,
     findOrderByIdService,
     findAllOrdersService,
+    findAllOrdersByUserIdService,
+    getOrderInfoByIdService,
     deleteOrderService,
     updateOrderStatusService
 }

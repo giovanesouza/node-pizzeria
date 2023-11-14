@@ -1,19 +1,16 @@
 const mongoose = require("mongoose");
 
 const PedidoSchema = new mongoose.Schema({
-    produtos: [
-        {
-            _id: { type: mongoose.Schema.Types.ObjectId, required: true, ref: "produtos" },
-            quantidade: { type: Number, required: true }
-        },
-    ],
-    createdAt: { type: Date, required: true, default: Date.now() },
-    precoTotal: { type: Number, required: true},
-    frete: { type: Number, required: true},
-    userId: { type: mongoose.Schema.Types.ObjectId, required: true,ref: "usuarios" },
-    concluido: { type: Boolean, default: false, required: true}
+
+    carrinhoId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: "carrinhos" },
+    userId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: "usuarios" },
+    formaPagamento: { type: String, required: true },
+    concluido: { type: Boolean, default: false, required: true },
+    createdAt: { type: Date, required: true, default: Date.now() }
+
 });
 
 const Pedido = mongoose.model("pedidos", PedidoSchema);
 
 module.exports = Pedido;
+
