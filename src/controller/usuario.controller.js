@@ -151,7 +151,19 @@ const addFavProdutoController = async (req, res) => {
 
 const removeFavProdutoController = async (req, res) => {
     try {
-        res.status(200).send(await userService.removeFavProdutoService(req.params.id, req.body));
+        // Busca usuário por Id -> Utilizado para pegar os produtos favoritos
+        const findUser = await userService.findUserByIdService(req.params.id);
+
+        // Verifica se há algum favorito com o _id informado na requisição
+        const favoriteProductFound = findUser.produtos_fav.some(favorito => favorito._id.toString() == req.body._id);
+
+        // Se localizado, remove 
+        if (favoriteProductFound)
+            return res.status(200).send(await userService.removeFavProdutoService(req.params.id, req.body));
+
+
+        res.status(400).send({ message: "O produto não consta nos favoritos." });
+
     } catch (err) {
         console.log(`erro: ${err.message}`);
         return res.status(500).send({ message: `Erro inesperado tente novamente!` });
