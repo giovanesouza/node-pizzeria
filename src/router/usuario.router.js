@@ -3,19 +3,19 @@ const router = express.Router();
 const usuarioController = require("../controller/usuario.controller");
 
 const authMiddleware = require("../middleware/auth.middleware"); // Validação de login
-const { validaUsuario, validaIdParams, validaAddEndereco, validaRemoveEndereco } = require("../middleware/validacao.middleware");
+const { validaUsuario, validaIdParams, validaBodyId, validaAddEndereco, validaRemoveEndereco } = require("../middleware/validacao.middleware");
 
 
 
 // Rotas POST
 router.post('/create', validaUsuario, usuarioController.createUserController);
 router.post('/addAddress/:id', authMiddleware, validaIdParams, validaAddEndereco, usuarioController.addUserAddressController);
-router.post('/addFavProduto/:id', authMiddleware, validaIdParams, usuarioController.addFavProdutoController);
+router.post('/addFavProduto/:id', authMiddleware, validaIdParams, validaBodyId, usuarioController.addFavProdutoController);
 
 // Rotas GET
 router.get('/findById/:id', authMiddleware, validaIdParams, usuarioController.findUserByIdController);
 router.get('/findAll', authMiddleware, usuarioController.findAllUsersController);
-router.get('/findAllAddress/:id', authMiddleware, validaIdParams, usuarioController.findAllAddressController);
+router.get('/findAllAddress/:id', authMiddleware, validaIdParams, validaBodyId, usuarioController.findAllAddressController);
 
 
 // Rotas PUT
@@ -24,6 +24,6 @@ router.put('/update/:id', authMiddleware, validaIdParams, validaUsuario, usuario
 // Rotas DELETE
 router.delete('/delete/:id', authMiddleware, validaIdParams, usuarioController.deleteUserController);
 router.delete('/removeAddress', authMiddleware, validaRemoveEndereco, usuarioController.removeUserAddressController);
-router.delete('/removeFavProduto/:id', authMiddleware, validaIdParams, usuarioController.removeFavProdutoController);
+router.delete('/removeFavProduto/:id', authMiddleware, validaIdParams, validaBodyId, usuarioController.removeFavProdutoController);
 
 module.exports = router;

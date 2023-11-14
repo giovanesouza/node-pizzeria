@@ -20,7 +20,7 @@ const UsuarioSchema = new mongoose.Schema({
     ],
     produtos_fav: [
         {
-            produto_id: { type: mongoose.Schema.Types.ObjectId, required: true, ref: "produtos"},
+            _id: { type: mongoose.Schema.Types.ObjectId, unique: true, required: true, ref: "produtos"},
             createdAt: { type: Date, required: true, default: Date.now() },
         }
     ],

@@ -55,11 +55,10 @@ const removeAddressService = (userId, addressId) => {
     );
 }
 
-const addFavProdutoService = (id, produto) => {
-    console.log(produto)
+const addFavProdutoService = (userId, produto) => {
     return Usuario.findOneAndUpdate(
         {
-            _id: id,
+            _id: userId,
         },
         {
             $push: {
@@ -69,15 +68,16 @@ const addFavProdutoService = (id, produto) => {
             }
         },
         {
-            rawResult: true,
+           returnDocument: "after",
         }
     );
-}
+};
 
-const removeFavProdutoService = (id,produto) => {
+const removeFavProdutoService = (userId,produto) => {
+
     return Usuario.findOneAndUpdate(
         {
-            _id: id,
+            _id: userId,
         },
         {
             $pull: {
@@ -87,10 +87,10 @@ const removeFavProdutoService = (id,produto) => {
             }
         },
         {
-            rawResult: true,
+            returnDocument: "after"
         }
     );
-}
+};
 
 module.exports = {
     createUserService,

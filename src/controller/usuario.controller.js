@@ -100,30 +100,29 @@ const addUserAddressController = async (req, res) => {
 const removeUserAddressController = async (req, res) => {
     try {
         const usuario = await userService.removeAddressService(req.body.userId, req.body.addressId);
-        
+
         let found = false;
-        let totalAddress = usuario.enderecos.length;
 
         usuario.enderecos.map((valor) => {
-           
+
             if (valor._id == req.body.addressId) {
                 found = true;
 
             }
 
-            console.log(valor)
+            console.log(valor);
 
         });
 
 
         if (found) {
- 
-                res.status(200).send({ message: `Endereço removido com sucesso!` });
+
+            res.status(200).send({ message: `Endereço removido com sucesso!` });
         } else {
             res.status(400).send({ message: `Endereço não localizado. Tente novamente!` });
         }
 
-     } catch (err) {
+    } catch (err) {
         console.log(`erro: ${err.message}`);
         return res.status(500).send({ message: `Erro inesperado tente novamente!` });
     }
@@ -131,7 +130,23 @@ const removeUserAddressController = async (req, res) => {
 
 const addFavProdutoController = async (req, res) => {
     try {
-        res.status(201).send(await userService.addFavProdutoService(req.params.id, req.body));
+
+        // Busca usuário por Id -> Utilizado para pegar os produtos favoritos
+        const findUser = await userService.findUserByIdService(req.params.id);
+        // console.log(findUser)
+
+        // Verifica se há algum favorito com o _id informado na requisição
+        const favoriteProductFound = findUser.produtos_fav.some(favorito => favorito._id.toString() == req.body._id);
+
+        // console.log(favoriteProductFound)
+
+        if (!favoriteProductFound)
+            return res.status(201).send(await userService.addFavProdutoService(req.params.id, req.body))
+
+
+        res.status(400).send({ message: "O produto já consta na lista de favoritos." });
+
+
     } catch (err) {
         console.log(`erro: ${err.message}`);
         return res.status(500).send({ message: `Erro inesperado tente novamente!` });
@@ -140,7 +155,7 @@ const addFavProdutoController = async (req, res) => {
 
 const removeFavProdutoController = async (req, res) => {
     try {
-        res.status(201).send(await userService.removeFavProdutoService(req.params.id, req.body));
+        res.status(200).send(await userService.removeFavProdutoService(req.params.id, req.body));
     } catch (err) {
         console.log(`erro: ${err.message}`);
         return res.status(500).send({ message: `Erro inesperado tente novamente!` });
