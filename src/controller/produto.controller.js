@@ -80,21 +80,53 @@ const deleteProductController = async (req, res) => {
 
 const addProductCategoryController = async (req, res) => {
     try {
+        // Busca produto pelo id
+        const productFound = await produtoService.findProductByIdService(req.params.id);
+
+        // Produto não localizado
+        if (productFound == null)
+            return res.status(404).send({ message: "Produto não localizado!" });
+
+        // Produto localizado -> Verifica se o produto já contém a categoria
+        const hasCategory = productFound.categorias.some(categ => categ._id.toString() == req.body._id);
+
+        // Caso o produto já tenha a categoria, não permite add novamente
+        if (hasCategory)
+            return res.status(400).send({ message: "O produto já contém a categoria informada." });
+
+
+        // Add categoria (caso não contenha)
         res.status(200).send(await produtoService.addProductCategoryService(req.params.id, req.body));
+
     } catch (err) {
         console.log(`erro: ${err.message}`);
         return res.status(500).send({ message: `Erro inesperado, tente novamente!` });
     }
-}
+};
 
 const removeProductCategoryController = async (req, res) => {
     try {
-        res.status(200).send(await produtoService.removeProductCategoryService(req.params.id, req.body));
+        // Busca produto pelo id
+        const productFound = await produtoService.findProductByIdService(req.params.id);
+
+        // Produto não localizado
+        if (productFound == null)
+            return res.status(404).send({ message: "Produto não localizado!" });
+
+
+        // Produto localizado -> Verifica se o produto contém a categoria
+        const hasCategory = productFound.categorias.some(categ => categ._id.toString() == req.body._id);
+
+        // Caso o produto tenha a categoria, remove-a
+        if (hasCategory)
+            return res.status(200).send(await produtoService.removeProductCategoryService(req.params.id, req.body));
+
+        res.status(400).send({ message: "O produto não contém a categoria informada." });
     } catch (err) {
         console.log(`erro: ${err.message}`);
         return res.status(500).send({ message: `Erro inesperado, tente novamente!` });
     }
-}
+};
 
 
 
