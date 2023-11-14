@@ -15,7 +15,7 @@ router.post('/addFavProduto/:id', authMiddleware, validaIdParams, validaBodyId, 
 // Rotas GET
 router.get('/findById/:id', authMiddleware, validaIdParams, usuarioController.findUserByIdController);
 router.get('/findAll', authMiddleware, usuarioController.findAllUsersController);
-router.get('/findAllAddress/:id', authMiddleware, validaIdParams, validaBodyId, usuarioController.findAllAddressController);
+router.get('/findAllAddress/:id', authMiddleware, validaIdParams, usuarioController.findAllAddressController);
 
 
 // Rotas PUT
