@@ -3,6 +3,12 @@ const userService = require("../service/usuario.service");
 
 const createUserController = async (req, res) => {
     try {
+        const foundUserByEmail = await userService.findUserByEmailService(req.body.email);
+       
+        // Verifica se existe um usuário com o e-mail informado
+        if (foundUserByEmail)
+           return res.status(400).send({ message: "Já existe um usuário cadastrado com o email informado." });
+
         return res.status(201).send(await userService.createUserService(req.body));
     } catch (err) {
         console.log(`erro: ${err.message}`);
@@ -17,7 +23,7 @@ const findUserByIdController = async (req, res) => {
         const user = await userService.findUserByIdService(req.params.id);
 
         if (!user) {
-            return res.status(404).send({ message: "Usuario nao encontrado, tente novamente" });
+            return res.status(404).send({ message: "Usuário não encontrado. Tente novamente!" });
         }
 
         return res.status(200).send(user);

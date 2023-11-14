@@ -3,23 +3,27 @@ const Usuario = require("../model/Usuario");
 
 const createUserService = (body) => {
     return Usuario.create(body);
-}
+};
 
 const findUserByIdService = (id) => {
     return Usuario.findById(id);
-}
+};
+
+const findUserByEmailService = (bodyEmail) => {
+    return Usuario.findOne({ email: bodyEmail });
+};
 
 const findAllUsersService = () => {
     return Usuario.find();
-}
+};
 
 const updateUserService = (id, body) => {
     return Usuario.findByIdAndUpdate(id, body, { returnDocument: "after" });
-}
+};
 
 const deleteUserService = (id) => {
     return Usuario.findByIdAndDelete(id);
-}
+};
 
 const addAddressService = (userId, endereco) => {
     return Usuario.findOneAndUpdate(
@@ -27,7 +31,7 @@ const addAddressService = (userId, endereco) => {
             _id: userId,
         },
         {
-            $push:{
+            $push: {
                 enderecos: endereco,
             }
         },
@@ -35,7 +39,7 @@ const addAddressService = (userId, endereco) => {
             returnDocument: "after"
         }
     );
-}
+};
 
 const removeAddressService = (userId, addressId) => {
     return Usuario.findOneAndUpdate(
@@ -43,7 +47,7 @@ const removeAddressService = (userId, addressId) => {
             _id: userId,
         },
         {
-            $pull:{
+            $pull: {
                 enderecos: {
                     _id: addressId
                 },
@@ -53,7 +57,7 @@ const removeAddressService = (userId, addressId) => {
             returnDocument: "after"
         }
     );
-}
+};
 
 const addFavProdutoService = (userId, produto) => {
     return Usuario.findOneAndUpdate(
@@ -62,18 +66,18 @@ const addFavProdutoService = (userId, produto) => {
         },
         {
             $push: {
-                produtos_fav:{
+                produtos_fav: {
                     _id: produto._id,
                 }
             }
         },
         {
-           returnDocument: "after",
+            returnDocument: "after",
         }
     );
 };
 
-const removeFavProdutoService = (userId,produto) => {
+const removeFavProdutoService = (userId, produto) => {
 
     return Usuario.findOneAndUpdate(
         {
@@ -81,7 +85,7 @@ const removeFavProdutoService = (userId,produto) => {
         },
         {
             $pull: {
-                produtos_fav:{
+                produtos_fav: {
                     _id: produto._id,
                 }
             }
@@ -95,6 +99,7 @@ const removeFavProdutoService = (userId,produto) => {
 module.exports = {
     createUserService,
     findUserByIdService,
+    findUserByEmailService,
     findAllUsersService,
     updateUserService,
     deleteUserService,
