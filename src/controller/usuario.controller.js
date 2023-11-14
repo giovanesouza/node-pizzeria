@@ -4,10 +4,10 @@ const userService = require("../service/usuario.service");
 const createUserController = async (req, res) => {
     try {
         const foundUserByEmail = await userService.findUserByEmailService(req.body.email);
-       
+
         // Verifica se existe um usuário com o e-mail informado
         if (foundUserByEmail)
-           return res.status(400).send({ message: "Já existe um usuário cadastrado com o email informado." });
+            return res.status(400).send({ message: "Já existe um usuário cadastrado com o email informado." });
 
         return res.status(201).send(await userService.createUserService(req.body));
     } catch (err) {
@@ -50,7 +50,7 @@ const findAllUsersController = async (req, res) => {
 const findAllAddressController = async (req, res) => {
     try {
         const user = await userService.findUserByIdService(req.params.id);
-        res.status(200).send({usuario: user.nome, enderecos: user.enderecos});
+        res.status(200).send({ usuario: user.nome, enderecos: user.enderecos });
     } catch (err) {
         console.log(`erro: ${err.message}`);
         return res.status(500).send({ message: `Erro inesperado tente novamente!` });
@@ -105,28 +105,18 @@ const addUserAddressController = async (req, res) => {
 
 const removeUserAddressController = async (req, res) => {
     try {
-        const usuario = await userService.removeAddressService(req.body.userId, req.body.addressId);
+        // Busca usuário com base no id informado
+        const usuario = await userService.findUserByIdService(req.body.userId);
 
-        let found = false;
+        // Verifica se há algum endereço com o id informado na requisição
+        const addressFound = usuario.enderecos.some(endereco => endereco._id.toString() == req.body.addressId);
 
-        usuario.enderecos.map((valor) => {
-
-            if (valor._id == req.body.addressId) {
-                found = true;
-
-            }
-
-            console.log(valor);
-
-        });
+        // Se localizado, remove o endereço
+        if (addressFound)
+            return res.status(200).send(await userService.removeAddressService(req.body.userId, req.body.addressId));
 
 
-        if (found) {
-
-            res.status(200).send({ message: `Endereço removido com sucesso!` });
-        } else {
-            res.status(400).send({ message: `Endereço não localizado. Tente novamente!` });
-        }
+        res.status(404).send({ message: "Endereço não localizado." });
 
     } catch (err) {
         console.log(`erro: ${err.message}`);
