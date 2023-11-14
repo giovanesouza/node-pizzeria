@@ -63,7 +63,14 @@ const updateProductController = async (req, res) => {
 
 const deleteProductController = async (req, res) => {
     try {
-        res.send(await produtoService.deleteProductService(req.params.id));
+        const productFound = await produtoService.findProductByIdService(req.params.id);
+
+        // Produto não localizado
+        if (productFound == null)
+            return res.status(404).send({ message: "Produto não localizado!" });
+
+        // Produto localizado e excluído
+        res.status(200).send(await produtoService.deleteProductService(req.params.id));
     } catch (err) {
         console.log(`erro: ${err.message}`);
         return res.status(500).send({ error: `Tente novamente!` });
