@@ -2,12 +2,17 @@ const produtoService = require("../service/produto.service");
 
 const createProductController = async (req, res) => {
     try {
-        // return res.status(201).send(await produtoService.createProductService(req.body));
-        const produto = await produtoService.createProductService(req.body);
+        // Busca produto pelo nome
+        const productFound = await produtoService.findProductByNameService(req.body.nome);
 
-        console.log(produto)
+        // Se localizado, não permite cadastrá-lo novamente 
+        if(productFound)
+            return res.status(400).send({message: "O Produto já consta como cadastrado."});
+        
+        
+        // Caso não exista, cadastra novo produto
+        res.status(201).send(await produtoService.createProductService(req.body));
 
-        return res.status(201).send(produto);
     } catch (err) {
         console.log(`erro: ${err.message}`);
 
@@ -54,20 +59,20 @@ const deleteProductController = async (req, res) => {
 
 
 const addProductCategoryController = async (req, res) => {
-    try{
+    try {
         res.status(200).send(await produtoService.addProductCategoryService(req.params.id, req.body));
-    }catch(err){
+    } catch (err) {
         console.log(`erro: ${err.message}`);
-        return res.status(500).send({ message: `Erro inesperado, tente novamente!`});
+        return res.status(500).send({ message: `Erro inesperado, tente novamente!` });
     }
 }
 
 const removeProductCategoryController = async (req, res) => {
-    try{
+    try {
         res.status(200).send(await produtoService.removeProductCategoryService(req.params.id, req.body));
-    }catch(err){
+    } catch (err) {
         console.log(`erro: ${err.message}`);
-        return res.status(500).send({ message: `Erro inesperado, tente novamente!`});
+        return res.status(500).send({ message: `Erro inesperado, tente novamente!` });
     }
 }
 
