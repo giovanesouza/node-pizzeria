@@ -1,16 +1,27 @@
 const pedidoService = require("../service/pedido.service");
+const { findUserByIdService } = require("../service/usuario.service")
 
 
 const createOrderController = async (req, res) => {
     try {
+        // Pega todos os pedidos do usuário logado
+        const ordersFound = await pedidoService.findAllOrdersByUserIdService(req.userId);
 
-        const corpo = {
+        // Verifica se o carrinho já foi add aos pedidos
+        const cartFound = ordersFound.some(carrinho => carrinho.carrinhoId == req.body.carrinhoId);
+
+        // Caso localizado, exibe msg
+        if (cartFound)
+            return res.status(400).send({ message: "O pedido já foi realizado." });
+
+
+        // Caso não localize, realiza pedido com o carrinho informado
+        const body = {
             ...req.body,
             userId: req.userId
         }
 
-        res.status(201).send(await pedidoService.createOrderService(corpo));
-
+        res.status(201).send(await pedidoService.createOrderService(body));
     } catch (err) {
         console.log(`erro: ${err.message}`);
         return res.status(500).send({ message: `Erro inesperado, tente novamente!` });
@@ -51,15 +62,22 @@ const findAllOrdersController = async (req, res) => {
 
 const findAllOrdersByUserIdController = async (req, res) => {
     try {
-        const pedidos = await pedidoService.findAllOrdersByUserIdService(req.body.userId);
+        // Verifica se o usuário existe
+        const userFound = await findUserByIdService(req.body.userId);
 
+        if (userFound) {
+            // Pega todos os pedidos do usuário
+            const pedidos = await pedidoService.findAllOrdersByUserIdService(req.body.userId);
 
+            // Verifica se há pedidos
+            if (pedidos.length != 0)
+                return res.status(200).send(pedidos);
 
-        if (pedidos.length != 0)
-            return res.status(200).send(pedidos);
+            // Exibe msg abaixo caso não tenha pedido
+            return res.status(404).send({ message: "Nenhum pedido realizado!" });
+        }
 
-
-        return res.status(404).send({ message: "Nenhum pedido realizado!" });
+        res.status(404).send({message: "Usuário não localizado."});
 
     } catch (err) {
         console.log(`erro: ${err.message}`);
@@ -76,7 +94,7 @@ const getOrderInfoByIdController = async (req, res) => {
             return res.status(200).send(infoPedido);
 
 
-            return res.status(404).send({ message: "Pedido não localizado" });
+        return res.status(404).send({ message: "Pedido não localizado" });
 
     } catch (err) {
         console.log(`erro: ${err.message}`);
