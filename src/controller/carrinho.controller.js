@@ -1,31 +1,38 @@
 const carrinhoService = require("../service/carrinho.service");
 
 const createCartController = async (req, res) => {
-    try{
+    try {
         const corpo = {
             ...req.body,
             userId: req.userId
         }
         res.status(201).send(await carrinhoService.createCartService(corpo));
-    }catch(err){
+    } catch (err) {
         res.status(500).send({ message: "Erro inesperado, tente novamente!" });
         console.log(err.message);
     }
 };
 
 const findCartByIdController = async (req, res) => {
-    try{
-        res.status(200).send(await carrinhoService.findCartByIdService(req.params.id));
-    }catch(err){
+    try {
+        const cartFound = await carrinhoService.findCartByIdService(req.params.id);
+
+        // Se o carrinho for localizado, exibe-o
+        if (cartFound)
+            return res.status(200).send(cartFound);
+
+        // Se não localizado, exibe a msg
+        res.status(404).send({ message: "Carrinho não localizado!" });
+    } catch (err) {
         res.status(500).send({ message: "Erro inesperado, tente novamente!" });
         console.log(err.message);
     }
 };
 
 const findAllCartsController = async (req, res) => {
-    try{
+    try {
         res.status(200).send(await carrinhoService.findAllCartsService());
-    }catch(err){
+    } catch (err) {
         res.status(500).send({ message: "Erro inesperado, tente novamente!" });
         console.log(err.message);
     }
@@ -33,47 +40,88 @@ const findAllCartsController = async (req, res) => {
 
 
 const updateCartController = async (req, res) => {
-    try{
-        res.status(200).send(await carrinhoService.updateCartService(req.params.id, req.body));
-    }catch(err){
+    try {
+        const cartFound = await carrinhoService.findCartByIdService(req.params.id);
+
+        // Se localizado, atualiza
+        if (cartFound)
+            return res.send(await carrinhoService.updateCartService(req.params.id, req.body));
+
+        console.log(cartFound)
+
+        // Não localizado, exibe a msg
+        res.status(404).send({ message: "Carrinho não localizado!" });
+    } catch (err) {
         res.status(500).send({ message: "Erro inesperado, tente novamente!" });
         console.log(err.message);
     }
 };
 
 const deleteCartController = async (req, res) => {
-    try{
-        
-        const cart = await carrinhoService.deleteCartService(req.params.id);
-        
-        
-        if(cart != null)
-            return res.status(200).send(cart);
-        
-              
-        res.status(400).send({message: "Carrinho não existe."});
+    try {
+        const cartFound = await carrinhoService.deleteCartService(req.params.id);
 
-    }catch(err){
+        if (cartFound)
+            return res.status(200).send(cartFound);
+
+        res.status(400).send({ message: "Carrinho não existe." });
+    } catch (err) {
         res.status(500).send({ message: "Erro inesperado, tente novamente!" });
         console.log(err.message);
     }
 };
 
 const addProductCartController = async (req, res) => {
-    try{
-        res.status(200).send(await carrinhoService.addProductCartService(req.params.id, req.body));
-    }catch(err){
+    try {
+       // Busca o carrinho
+       const cartFound = await carrinhoService.findCartByIdService(req.params.id);
+
+       // Se o carrinho for localizado, verifica se o produto passado no corpo da req já está no carrinho
+       if (cartFound) {
+           const productCart = cartFound.produtos.some(produto => produto._id == req.body._id);
+
+           // Se já estiver, não permite add novamente
+           if (productCart) {
+               return res.status(400).send({ message: "O produto já está no carrinho." });
+
+           } else {
+               // Add produto
+               return res.status(200).send(await carrinhoService.addProductCartService(req.params.id, req.body));
+           }
+       };
+
+       // Caso o carrinho não seja localizado, exibe a msg
+       res.status(404).send({ message: "Carrinho não localizado!" });
+    } catch (err) {
         console.log(`erro: ${err.message}`);
-        return res.status(500).send({ message: `Erro inesperado, tente novamente!`});
+        return res.status(500).send({ message: `Erro inesperado, tente novamente!` });
     }
 };
 
 const removeProductCartController = async (req, res) => {
-    try{
-        res.status(200).send(await carrinhoService.removeProductCartService(req.params.id, req.body));
-    }catch(err){
+    try {
+        // Busca o carrinho
+        const cartFound = await carrinhoService.findCartByIdService(req.params.id);
+
+        // Se o carrinho for localizado, verifica se o produto passado no corpo da req está no carrinho
+        if (cartFound) {
+            const productCart = cartFound.produtos.some(produto => produto._id == req.body._id);
+
+            // Produto localizado: remove-o
+            if (productCart) {
+                return res.status(200).send(await carrinhoService.removeProductCartService(req.params.id, req.body));
+
+            } else {
+                // Não localizado, exibe a msg 
+                return res.status(404).send({ message: "Produto não localizado!" });
+            }
+        };
+
+        // Caso o carrinho não seja localizado, exibe a msg
+        res.status(404).send({ message: "Carrinho não localizado!" });
+    } catch (err) {
         console.log(`erro: ${err.message}`);
-        return res.status(500).send({ message: `Erro inesperado, tente novamente!`});
+        return res.status(500).send({ message: `Erro inesperado, tente novamente!` });
     }
 };
 
