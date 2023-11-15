@@ -208,7 +208,7 @@ const validaProdutosCarrinhoPedido = (req, res, next) => {
             erros.push(`'${key + 1} - _id'`)
         }
         if (!ObjectId.isValid(value._id)) {
-            erros.push(`'${key + 1} - _id - tipo inválido'`)
+            erros.push(`'${key + 1} - tipo inválido'`)
         }
         if (!value.quantidade) {
             erros.push(`'${key + 1} - quantidade'`)
@@ -224,7 +224,7 @@ const validaProdutosCarrinhoPedido = (req, res, next) => {
             return res.status(400).send({ message: `O campo ${erros} precisa ser preenchido!` });
         }
     }
-}
+};
 
 
 
