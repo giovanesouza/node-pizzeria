@@ -3,15 +3,15 @@ const authMiddleware = require("../middleware/auth.middleware");
 
 const categoriaController = require("../controller/categoria.controller");
 const { validaCategoria,  validaIdParams } = require("../middleware/validacao.middleware");
+const validaAdmin = require("../middleware/valida.admin.middleware"); // Verifica se é Admin
 
-
-router.post("/create", authMiddleware, validaCategoria, categoriaController.createCategoryController);
+router.post("/create", authMiddleware, validaAdmin, validaCategoria, categoriaController.createCategoryController);
 
 router.get("/findById/:id", authMiddleware, validaIdParams, categoriaController.findCategoryByIdController);
 router.get("/findAll", authMiddleware, categoriaController.findAllCategoriesController);
 
-router.put("/update/:id", authMiddleware, validaIdParams, validaCategoria, categoriaController.updateCategoryController);
+router.put("/update/:id", authMiddleware, validaAdmin, validaIdParams, validaCategoria, categoriaController.updateCategoryController);
 
-router.delete("/delete/:id", authMiddleware, validaIdParams, categoriaController.deleteCategoryController);
+router.delete("/delete/:id", authMiddleware, validaAdmin, validaIdParams, categoriaController.deleteCategoryController);
 
 module.exports = router;
