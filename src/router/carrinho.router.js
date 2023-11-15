@@ -12,7 +12,7 @@ router.get("/findById/:id", authMiddleware, validaIdParams, carrinhoController.f
 router.get("/findAll", authMiddleware, carrinhoController.findAllCartsController);
 
 
-router.put("/update/:id", authMiddleware, validaIdParams, validaCarrinho, carrinhoController.updateCartController);
+router.put("/update/:id", authMiddleware, validaIdParams, validaProdutosCarrinhoPedido, validaCarrinho, carrinhoController.updateCartController);
 
 router.delete("/delete/:id", authMiddleware, validaIdParams, carrinhoController.deleteCartController);
 router.delete("/removeProductCart/:id", authMiddleware, validaIdParams, validaBodyId, carrinhoController.removeProductCartController);
