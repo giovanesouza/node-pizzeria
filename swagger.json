@@ -388,7 +388,7 @@
                 }
             },
             
-            "EnderecoUsuario":{
+            "EnderecosUsuario":{
                 "type": "array",
                 "items":{
                     "properties": {
@@ -411,7 +411,7 @@
                 }
             },
 
-            "ProdutoFav":{
+            "ProdutosFav":{
                 "type": "array",
                 "items":{
                     "properties": {
@@ -426,20 +426,104 @@
             },
 
 
-            "Categoria":{
-               
+            "Categorias":{
+               "type": "object",
+                "properties": {
+                    "nome": {
+                        "type":"string"
+                    },
+                    "createdAt": {
+                        "type":"string"
+                        }
+                    }
+
             },
 
-            "Produto":{
-               
+            "Produtos":{
+                "type": "object",
+                 "properties": {
+                    "nome": {
+                        "type":"string"
+                    },
+                    "descricao": {
+                        "type":"string"
+                    },
+                    "precoUnit": {
+                        "type":"integer"
+                    },
+                    "img": {
+                        "type":"string"
+                    },
+                    "categorias": {
+                        "type":"array",
+                        "items": {
+                            "properties": {
+                                "_id": {
+                                    "type": "string"
+                                },
+                                "createdAt": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                     },
+                    "createdAt": {
+                            "type":"string"
+                    }
+                }
             },
 
-            "Carrinho":{
-               
+            "Carrinhos":{
+               "type":"object",
+               "properties": {
+                    "produtos": {
+                        "type": "array",
+                        "items": {
+                            "properties": { 
+                                "_id": {
+                                    "type":"string"
+                                },
+                                "quantidade": {
+                                    "type": "integer"
+                                }
+                            }
+                            
+                        }
+                    },
+                    "createdAt": {
+                        "type": "string"
+                    },
+                    "precoTotal": {
+                        "type": "integer"
+                    },
+                    "frete": {
+                        "type": "integer"
+                    },
+                    "userId": {
+                        "type": "string"
+                    }
+               }
             },
 
-            "Pedido":{
-               
+            "Pedidos":{
+               "type": "object",
+               "properties": {
+                    "carrinhoId": {
+                        "type": "string"
+                    },
+                    "userId": {
+                        "type": "string"
+                    },
+                    "formaPagamento": {
+                        "type": "string"
+                    },
+                    "concluido": {
+                        "type": "boolean"
+                    },
+                    "createdAt": {
+                        "type": "string"
+                    }
+               }
             }
 
 
