@@ -2,7 +2,7 @@
     "openapi": "3.1.0",
     "info": {
         "title": "API Pizzeria",
-        "description": "Por meio desta API completa de Pizzeria é possível realizar todos os procedimentos necessários para um negócio de delivery tais como o cadastro de usuários, login, cadastro de categorias, produtos, carrinhos e pedidos, tendo algumas operações restritas aos usuários administradores, como cadastros de categorias e produtos, por exemplo.",
+        "description": "Por meio desta API completa de Pizzeria é possível realizar todos os procedimentos necessários para um negócio de delivery tais como o cadastro de usuários, login, cadastro de categorias, produtos, carrinhos e pedidos, tendo algumas operações restritas aos usuários administradores como, por exemplo, cadastro de categorias e produtos",
         "contact": {
             "name": "Giovane Souza",
             "email": "developergiovanesouza@email.com.br"
@@ -14,6 +14,437 @@
             "url": "http://localhost:3000/",
             "description": "API de Teste LOCAL"
         }
-    ]
+    ],
+    "paths": {
+        "/auth/login":{
+            "post":{
+                 "summary": "Autentica usuário",
+                "description": "Rota responsável pela autenticação de usuários",
+                "tags": ["Auth"],
+
+                "requestBody": 
+                {
+                    "content": {
+                        "application/json":{
+                            "schema":{
+                                "type":"object",
+                                "$ref": "#/components/schemas/Auth"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "type":"array",
+                                    "items":{
+                                        "type":"object",
+                                        "$ref": "#/components/schemas/Auth"
+                                    }
+                                }
+                            }
+                        }                        
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        } 
+                    }
+                }
+            }
+        },
+
+        "/users/create":{
+            "post":{
+                 "summary": "Cadastra usuários",
+                "description": "Rota responsável por cadastrar usuários (clientes e admin)",
+                "tags": ["Usuario"],
+
+                "requestBody": 
+                {
+                    "content": {
+                        "application/json":{
+                            "schema":{
+                                "type":"object",
+                                "$ref": "#/components/schemas/Usuario"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+
+
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "type":"array",
+                                    "items":{
+                                        "type":"object",
+                                        "$ref": "#/components/schemas/Usuario"
+                                    }
+                                }
+                            }
+                        }                        
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        } 
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        } 
+                    }
+                }
+            }
+        },
+
+        "/users/findById/{id}":{
+                "get":{
+                    "security": [
+                        {
+                            "bearerAuth":[]
+                        }
+                    ],
+                    "summary": "Busca um usuário",
+                    "description": "Rota responsável por buscar um usuário com base no 'id' informado.",
+                    "tags": ["Usuario"],
+
+                    "parameters": [
+                        {
+                            "in": "path",
+                            "required": true,
+                            "schema":{
+                                "type": "string"
+                            },
+                            "name": "id"
+                        }
+                    ],
+
+                    "responses": {
+                        "200": {
+                            "description": "OK",
+                            "content": {
+                                "application/json":{
+                                    "schema":{
+                                        "type":"array",
+                                        "items":{
+                                            "type":"object",
+                                            "$ref": "#/components/schemas/Usuario"
+                                        }
+                                    }
+                                }
+                            }                        
+                        },
+                        "401": {
+                            "description": "Unauthorized",
+                            "content": {
+                                "application/json":{
+                                    "schema":{
+                                        "type":"object",
+                                        "properties": {
+                                            "message": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            } 
+                        },
+                        "404": {
+                            "description": "Not Found",
+                            "content": {
+                                "application/json":{
+                                    "schema":{
+                                        "type":"object",
+                                        "properties": {
+                                            "message": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            } 
+                        },
+                        "500": {
+                            "description": "Internal Server Error",
+                            "content": {
+                                "application/json":{
+                                    "schema":{
+                                        "type":"object",
+                                        "properties": {
+                                            "message": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            } 
+                        }
+                    }
+                }
+        },
+        
+        "/users/findAll":{
+            "get":{
+                "security": [
+                    {
+                        "bearerAuth":[]
+                    }
+                ],
+                "summary": "Lista usuários",
+                "description": "Rota responsável por listar todos os usuários cadastrados.",
+                "tags": ["Usuario"],
+
+                "parameters": [
+                    {
+                        "in": "query",
+                        "schema":{
+                            "type": "integer"
+                        },
+                        "name": "limit"
+                    },{
+                        "in": "query",
+                        "schema":{
+                            "type": "integer"
+                        },
+                        "name": "offset"
+                    }
+                ],
+
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "type":"array",
+                                    "items":{
+                                        "type":"object",
+                                        "$ref": "#/components/schemas/Usuario"
+                                    }
+                                }
+                            }
+                        }                        
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        } 
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        } 
+                    }
+                }
+            }
+    }
+
+
+
+
+    
+    },
+    
+    "components": {
+        "securitySchemes": {
+            "bearerAuth":{
+                "type":"http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        },
+        "schemas":{
+           "Auth": {
+                "type": "object",
+                    "properties":{
+                        "email": {
+                            "type": "string"
+                        },
+                        "senha":{
+                            "type": "string"
+                        }
+                }
+            },
+            "Usuario": {
+                "type": "object",
+                "properties": {
+                    "nome": {
+                        "type": "string"
+                    },
+                    "telefone": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "senha": {
+                        "type": "string"
+                    },
+                    "imagem": {
+                        "type": "string"
+                    },
+                    "enderecos": {
+                        "type": "array",
+                        "items":{
+                            "properties": {
+                                "rua": {
+                                    "type": "string"
+                                },
+                                "numero": {
+                                    "type": "string"
+                                },
+                                "complemento": {
+                                    "type": "string"
+                                },
+                                "cep": {
+                                    "type": "string"
+                                },
+                                "createdAt": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "produtos_fav": {
+                        "type": "array",
+                        "items":{
+                            "properties": {
+                                "_id": {
+                                    "type": "string"
+                                },
+                                "createdAt": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "createdAt": {
+                        "type": "string"
+                    },
+                    "admin": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            
+            "EnderecoUsuario":{
+                "type": "array",
+                "items":{
+                    "properties": {
+                        "rua": {
+                            "type": "string"
+                        },
+                        "numero": {
+                            "type": "string"
+                        },
+                        "complemento": {
+                            "type": "string"
+                        },
+                        "cep": {
+                            "type": "string"
+                        },
+                        "createdAt": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+
+            "ProdutoFav":{
+                "type": "array",
+                "items":{
+                    "properties": {
+                        "_id": {
+                            "type": "string"
+                        },
+                        "createdAt": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+
+
+            "Categoria":{
+               
+            },
+
+            "Produto":{
+               
+            },
+
+            "Carrinho":{
+               
+            },
+
+            "Pedido":{
+               
+            }
+
+
+        }
+    }
+
     
 }
