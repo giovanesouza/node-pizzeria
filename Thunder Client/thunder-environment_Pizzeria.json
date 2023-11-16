@@ -1,0 +1,16 @@
+{
+    "client": "Thunder Client",
+    "environmentName": "Pizzeria",
+    "dateExported": "2023-11-16T02:31:02.647Z",
+    "version": "1.0",
+    "variables": [
+        {
+            "name": "baseURL",
+            "value": "http://localhost:3000"
+        },
+        {
+            "name": "token",
+            "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NTEyMDQzY2NiMjhkZTcwMzZlMzA5YyIsImlhdCI6MTcwMDA3ODM3MiwiZXhwIjoxNzAwMTY0NzcyfQ.sWtTA3i3f-9gzw6RhUaMAw-PFVly4XX5Ouj4nfWy8Ro"
+        }
+    ]
+}
