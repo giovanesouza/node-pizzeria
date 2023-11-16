@@ -1,0 +1,19 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "API Pizzeria",
+        "description": "Por meio desta API completa de Pizzeria é possível realizar todos os procedimentos necessários para um negócio de delivery tais como o cadastro de usuários, login, cadastro de categorias, produtos, carrinhos e pedidos, tendo algumas operações restritas aos usuários administradores, como cadastros de categorias e produtos, por exemplo.",
+        "contact": {
+            "name": "Giovane Souza",
+            "email": "developergiovanesouza@email.com.br"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:3000/",
+            "description": "API de Teste LOCAL"
+        }
+    ]
+    
+}

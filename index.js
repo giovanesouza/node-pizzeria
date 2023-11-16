@@ -10,9 +10,9 @@ const usuario = require("./src/router/usuario.router");
 const auth = require("./src/router/auth.router");
 const categoria = require("./src/router/categoria.router");
 const produto = require("./src/router/produto.router");
-const pedido = require("./src/router/pedido.router");
 const carrinho = require("./src/router/carrinho.router");
-
+const pedido = require("./src/router/pedido.router");
+const docs = require('./src/router/docs.router'); 
 
 
 const app = express();
@@ -40,12 +40,13 @@ connectToDatabase(); // Conexão com o BD
 
 
 // Rotas
-app.use("/users", usuario);
-app.use("/auth", auth);
-app.use("/categories", categoria);
-app.use("/products", produto);
-app.use("/orders", pedido);
-app.use("/carts", carrinho);
+app.use("/users", usuario); // Usuários
+app.use("/auth", auth); // Autenticação
+app.use("/categories", categoria); // Categorias
+app.use("/products", produto); // Produtos
+app.use("/carts", carrinho); // Carrinhos
+app.use("/orders", pedido); // Pedidos
+app.use("/docs", docs); // Documentação (swagger)
 
 
 
