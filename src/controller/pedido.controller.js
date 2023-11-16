@@ -46,7 +46,7 @@ const findOrderByIdController = async (req, res) => {
 
 const findAllOrdersController = async (req, res) => {
     try {
-        const pedidos = await pedidoService.findAllOrdersService();
+        const pedidos = await pedidoService.findAllOrdersService(req.query.limit, req.query.offset);
 
         if (pedidos.length != 0)
             return res.status(200).send(pedidos);
@@ -67,7 +67,7 @@ const findAllOrdersByUserIdController = async (req, res) => {
 
         if (userFound) {
             // Pega todos os pedidos do usuário
-            const pedidos = await pedidoService.findAllOrdersByUserIdService(req.body.userId);
+            const pedidos = await pedidoService.findAllOrdersByUserIdService(req.body.userId, req.query.limit, req.query.offset);
 
             // Verifica se há pedidos
             if (pedidos.length != 0)
@@ -105,7 +105,7 @@ const getOrderInfoByIdController = async (req, res) => {
 const getAllOpenOrdersController = async (req, res) => {
     try {
         // Retorna todos os produtos que estão com o campo concluído = false (em aberto)
-        return res.status(200).send(await pedidoService.getAllOpenOrders());
+        return res.status(200).send(await pedidoService.getAllOpenOrders(req.query.limit, req.query.offset));
     } catch (err) {
         console.log(`erro: ${err.message}`);
         return res.status(500).send({ error: `Erro inesperado, tente novamente!` });

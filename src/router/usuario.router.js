@@ -4,7 +4,7 @@ const usuarioController = require("../controller/usuario.controller");
 
 const authMiddleware = require("../middleware/auth.middleware"); // Validação de login
 const { validaUsuario, validaIdParams, validaBodyId, validaAddEndereco, validaRemoveEndereco } = require("../middleware/validacao.middleware");
-
+const paginacao = require("../middleware/paginacao.middleware");
 
 
 // Rotas POST
@@ -14,7 +14,7 @@ router.post('/addFavProduto/:id', authMiddleware, validaIdParams, validaBodyId, 
 
 // Rotas GET
 router.get('/findById/:id', authMiddleware, validaIdParams, usuarioController.findUserByIdController);
-router.get('/findAll', authMiddleware, usuarioController.findAllUsersController);
+router.get('/findAll', authMiddleware, paginacao, usuarioController.findAllUsersController);
 router.get('/findAllAddress/:id', authMiddleware, validaIdParams, usuarioController.findAllAddressController);
 
 

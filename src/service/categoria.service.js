@@ -12,8 +12,8 @@ const findCategoryByNameService = (categoryName) => {
     return Categoria.findOne({ nome: categoryName });
 };
 
-const findAllCategoriesService = () => {
-    return Categoria.find();
+const findAllCategoriesService = (limit, offset) => {
+    return Categoria.find().limit(limit).skip(offset);
 };
 
 const updateCategoryService = (id, body) => {

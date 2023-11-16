@@ -10,21 +10,21 @@ const findOrderByIdService = (id) => {
     return Pedido.findById(id);
 };
 
-const findAllOrdersService = () => {
-    return Pedido.find();
+const findAllOrdersService = (limit, offset) => {
+    return Pedido.find().limit(limit).skip(offset);
 };
 
 
-const findAllOrdersByUserIdService = (userId) => {
-    return Pedido.find({ userId });
+const findAllOrdersByUserIdService = (userId, limit, offset) => {
+    return Pedido.find({ userId }).limit(limit).skip(offset);
 };
 
 const getOrderInfoByIdService = (carrinhoId) => {
     return Carrinho.findById(carrinhoId);
 };
 
-const getAllOpenOrders = () => {
-    return Pedido.find({concluido: false});
+const getAllOpenOrders = (limit, offset) => {
+    return Pedido.find({concluido: false}).limit(limit).skip(offset);
 };
 
 const deleteOrderService = (id) => {

@@ -14,8 +14,8 @@ const findProductByNameService = (productName) => {
     return Produto.findOne({ nome: productName });
 };
 
-const findAllProductsService = () => {
-    return Produto.find();
+const findAllProductsService = (limit, offset) => {
+    return Produto.find().limit(limit).skip(offset);
 };
 
 const updateProductService = (id, body) => {

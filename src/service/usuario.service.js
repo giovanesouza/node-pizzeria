@@ -13,8 +13,8 @@ const findUserByEmailService = (bodyEmail) => {
     return Usuario.findOne({ email: bodyEmail });
 };
 
-const findAllUsersService = () => {
-    return Usuario.find();
+const findAllUsersService = (limit, offset) => {
+    return Usuario.find().limit(limit).skip(offset);
 };
 
 const updateUserService = (id, body) => {
