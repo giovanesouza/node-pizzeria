@@ -102,6 +102,16 @@ const getOrderInfoByIdController = async (req, res) => {
     }
 };
 
+const getAllOpenOrdersController = async (req, res) => {
+    try {
+        // Retorna todos os produtos que estão com o campo concluído = false (em aberto)
+        return res.status(200).send(await pedidoService.getAllOpenOrders());
+    } catch (err) {
+        console.log(`erro: ${err.message}`);
+        return res.status(500).send({ error: `Erro inesperado, tente novamente!` });
+    }
+};
+
 
 
 const updateOrderStatusController = async (req, res) => {
@@ -140,6 +150,7 @@ module.exports = {
     findAllOrdersController,
     findAllOrdersByUserIdController,
     getOrderInfoByIdController,
+    getAllOpenOrdersController,
     updateOrderStatusController,
     deleteOrderController
 }

@@ -23,6 +23,9 @@ const getOrderInfoByIdService = (carrinhoId) => {
     return Carrinho.findById(carrinhoId);
 };
 
+const getAllOpenOrders = () => {
+    return Pedido.find({concluido: false});
+};
 
 const deleteOrderService = (id) => {
     return Pedido.findByIdAndDelete(id);
@@ -38,6 +41,7 @@ module.exports = {
     findAllOrdersService,
     findAllOrdersByUserIdService,
     getOrderInfoByIdService,
+    getAllOpenOrders,
     deleteOrderService,
     updateOrderStatusService
 }

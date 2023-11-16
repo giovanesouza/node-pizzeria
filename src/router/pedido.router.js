@@ -13,6 +13,7 @@ router.get("/findById/:id", authMiddleware, validaIdParams, pedidoController.fin
 router.get("/findAll", authMiddleware, pedidoController.findAllOrdersController);
 router.get("/findAllOrdersByUserId", authMiddleware, validaBodyId, pedidoController.findAllOrdersByUserIdController);
 router.get("/getOrderInfoById", authMiddleware, validaBodyId, pedidoController.getOrderInfoByIdController);
+router.get("/getAllOpenOrders", authMiddleware, validaAdmin, pedidoController.getAllOpenOrdersController);
 
 router.delete("/delete/:id", authMiddleware, validaIdParams, pedidoController.deleteOrderController);
 
