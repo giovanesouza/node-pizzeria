@@ -2761,7 +2761,7 @@
       }
     },
 
-    "/orders/getOrderInfoById": {
+    "/orders/getOrderInfoById/{id}": {
       "get": {
         "security": [
           {
@@ -2769,24 +2769,19 @@
           }
         ],
         "summary": "Pega informações do carrinho",
-        "description": "Rota responsável por pegar informações dos produtos adicionados ao carrinho que gerou o pedido. Para tanto, é necessário informar o 'id' do carrinho no corpo da requisição ('body').",
+        "description": "Rota responsável por pegar informações dos produtos adicionados ao carrinho que gerou o pedido. Para tanto, é necessário informar o 'id' do carrinho que consta no pedido ('carrinhoId', na URL ('path').",
         "tags": ["Pedidos"],
 
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "carrinhoId": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          },
-          "required": true
-        },
+        "parameters": [
+          {
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "name": "id"
+          }
+        ],
 
         "responses": {
           "200": {
@@ -2794,7 +2789,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Pedidos"
+                  "$ref": "#/components/schemas/Carrinhos"
                 }
               }
             }
@@ -2848,7 +2843,7 @@
       }
     },
 
-    "/orders/findAllOrdersByUserId": {
+    "/orders/findAllOrdersByUserId/{id}": {
       "get": {
         "security": [
           {
@@ -2856,24 +2851,19 @@
           }
         ],
         "summary": "Lista pedidos de um usuário",
-        "description": "Rota responsável por listar todos os pedidos de um usuário, com base no 'id'.",
+        "description": "Rota responsável por listar todos os pedidos de um usuário, com base no 'id' dele.",
         "tags": ["Pedidos"],
 
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "userId": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          },
-          "required": true
-        },
+          "parameters": [
+          {
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "name": "id"
+          }
+        ],
 
         "responses": {
           "200": {
@@ -2884,7 +2874,7 @@
                   "type": "array",
                   "items": {
                     "type": "object",
-                    "$ref": "#/components/schemas/Carrinhos"
+                    "$ref": "#/components/schemas/Pedidos"
                   }
                 }
               }
