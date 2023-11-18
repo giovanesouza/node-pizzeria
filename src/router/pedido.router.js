@@ -11,8 +11,8 @@ router.post("/create", authMiddleware, validaPedido, pedidoController.createOrde
 router.get("/findById/:id", authMiddleware, validaIdParams, pedidoController.findOrderByIdController);
 
 router.get("/findAll", authMiddleware, paginacao, pedidoController.findAllOrdersController);
-router.get("/findAllOrdersByUserId", authMiddleware, validaBodyId, paginacao, pedidoController.findAllOrdersByUserIdController);
-router.get("/getOrderInfoById", authMiddleware, validaBodyId, pedidoController.getOrderInfoByIdController);
+router.get("/findAllOrdersByUserId/:id", authMiddleware, validaIdParams, paginacao, pedidoController.findAllOrdersByUserIdController);
+router.get("/getOrderInfoById/:id", authMiddleware, validaIdParams, pedidoController.getOrderInfoByIdController);
 router.get("/getAllOpenOrders", authMiddleware, validaAdmin, paginacao, pedidoController.getAllOpenOrdersController);
 
 router.delete("/delete/:id", authMiddleware, validaIdParams, pedidoController.deleteOrderController);

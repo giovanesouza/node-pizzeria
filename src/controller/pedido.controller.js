@@ -63,11 +63,11 @@ const findAllOrdersController = async (req, res) => {
 const findAllOrdersByUserIdController = async (req, res) => {
     try {
         // Verifica se o usuário existe
-        const userFound = await findUserByIdService(req.body.userId);
+        const userFound = await findUserByIdService(req.params.id);
 
         if (userFound) {
             // Pega todos os pedidos do usuário
-            const pedidos = await pedidoService.findAllOrdersByUserIdService(req.body.userId, req.query.limit, req.query.offset);
+            const pedidos = await pedidoService.findAllOrdersByUserIdService(req.params.id, req.query.limit, req.query.offset);
 
             // Verifica se há pedidos
             if (pedidos.length != 0)
@@ -88,7 +88,9 @@ const findAllOrdersByUserIdController = async (req, res) => {
 
 const getOrderInfoByIdController = async (req, res) => {
     try {
-        const infoPedido = await pedidoService.getOrderInfoByIdService(req.body.carrinhoId);
+        const infoPedido = await pedidoService.getOrderInfoByIdService(req.params.id);
+
+        console.log(infoPedido)
 
         if (infoPedido != null)
             return res.status(200).send(infoPedido);
