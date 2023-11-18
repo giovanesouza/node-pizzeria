@@ -1,7 +1,7 @@
 {
     "client": "Thunder Client",
     "collectionName": "pizzeria",
-    "dateExported": "2023-11-16T02:30:33.567Z",
+    "dateExported": "2023-11-18T23:05:05.624Z",
     "version": "1.1",
     "folders": [
         {
@@ -104,12 +104,12 @@
             "method": "POST",
             "sortNum": 10000,
             "created": "2023-11-12T03:40:20.215Z",
-            "modified": "2023-11-14T22:48:53.715Z",
+            "modified": "2023-11-17T21:35:17.051Z",
             "headers": [],
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"nome\": \"Sorvete de Chocolate\",\n  \"descricao\": \"Chocolate com crispes de cacau\",\n  \"precoUnit\": 5.80,\n  \"categorias\": {\n    \"_id\": \"6551878e68bf87f4c0bc99d8\"\n  }\n  \n}",
+                "raw": "{\n  \"nome\": \"Sorvete de Chocolate\",\n  \"descricao\": \"Chocolate com crispes de cacau\",\n  \"precoUnit\": 5.80,\n  \"categorias\": {\n    \"_id\": \"6551878e68bf87f4c0bc99d8\"\n  }\n}",
                 "form": []
             },
             "auth": {
@@ -494,12 +494,12 @@
             "method": "POST",
             "sortNum": 30000,
             "created": "2023-11-12T02:17:49.815Z",
-            "modified": "2023-11-15T19:58:22.047Z",
+            "modified": "2023-11-16T03:15:37.217Z",
             "headers": [],
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"email\": \"gs@gmail.com\",\n  \"senha\": \"1234\"\n}",
+                "raw": "{\n  \"email\": \"gs@gmail.com\",\n  \"senha\": \"1234d\"\n}",
                 "form": []
             },
             "tests": []
@@ -694,11 +694,11 @@
             "colId": "983f0434-df3e-4a3b-a0b9-690ded98c563",
             "containerId": "b6111203-a5f0-4508-b95b-18708aabc6d5",
             "name": "FindAllByUserId",
-            "url": "{{baseURL}}/orders/findAllOrdersByUserId?limit=10&offset=0",
+            "url": "{{baseURL}}/orders/findAllOrdersByUserId/65512043ccb28de7036e309c?limit=10&offset=0",
             "method": "GET",
             "sortNum": 35000,
             "created": "2023-11-14T01:06:22.535Z",
-            "modified": "2023-11-16T02:24:12.254Z",
+            "modified": "2023-11-18T22:34:47.138Z",
             "headers": [],
             "params": [
                 {
@@ -712,11 +712,6 @@
                     "isPath": false
                 }
             ],
-            "body": {
-                "type": "json",
-                "raw": "{\n  \"userId\": \"6551b514bbbca70c80eec43f\"\n}",
-                "form": []
-            },
             "auth": {
                 "type": "bearer",
                 "bearer": "{{token}}"
@@ -728,18 +723,13 @@
             "colId": "983f0434-df3e-4a3b-a0b9-690ded98c563",
             "containerId": "b6111203-a5f0-4508-b95b-18708aabc6d5",
             "name": "GetOrderInfoById",
-            "url": "{{baseURL}}/orders/getOrderInfoById",
+            "url": "{{baseURL}}/orders/getOrderInfoById/6557efe8736040e7687abd2f",
             "method": "GET",
             "sortNum": 37500,
             "created": "2023-11-14T01:58:09.559Z",
-            "modified": "2023-11-15T19:26:54.377Z",
+            "modified": "2023-11-18T22:48:43.145Z",
             "headers": [],
             "params": [],
-            "body": {
-                "type": "json",
-                "raw": "{\n  \"carrinhoId\": \"6554fab2346f236793f087f6\"\n}",
-                "form": []
-            },
             "auth": {
                 "type": "bearer",
                 "bearer": "{{token}}"
